@@ -1,0 +1,8 @@
+main: de.jeffclan.Drop2Inventory.Drop2InventoryPlugin
+name: Drop2Inventory
+version: 1.0
+api-version: 1.13
+description: Items dropped by breaking blocks will be put into your inventory
+author: mfnalex
+prefix: Drop2Inventory
+database: false
