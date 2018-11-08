@@ -16,6 +16,9 @@ public class Drop2InventoryPlugin extends JavaPlugin implements Listener {
 	
 	public void onEnable() {
 		this.getServer().getPluginManager().registerEvents(this, this);
+		
+		// All you have to do is adding this line in your onEnable method:
+        Metrics metrics = new Metrics(this);
 	}
 	
 	@EventHandler
