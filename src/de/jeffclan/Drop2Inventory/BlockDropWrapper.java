@@ -38,10 +38,10 @@ public class BlockDropWrapper {
 	boolean isFullyGrown(Block block) {
 		Ageable ageable = (Ageable) block.getBlockData();
 		if(ageable.getAge() == ageable.getMaximumAge()) {
-			System.out.println("This crop is fully grown");
+			//System.out.println("This crop is fully grown");
 			return true;
 		}
-		System.out.println("This crop is NOT fully grown");
+		//System.out.println("This crop is NOT fully grown");
 		return false;
 	}
 	
@@ -199,7 +199,7 @@ public class BlockDropWrapper {
 			result[0] = new ItemStack(silkTouchMap.get(mat),1);
 		} else {
 			result[0] = new ItemStack(mat,1);
-			System.out.println("Material "+mat.name()+" not found in Silk Touch Map, return itself");
+			//System.out.println("Material "+mat.name()+" not found in Silk Touch Map, return itself");
 		}
 		return result;
 	}

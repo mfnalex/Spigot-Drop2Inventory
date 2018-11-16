@@ -10,6 +10,7 @@ import org.bukkit.block.Block;
 import org.bukkit.enchantments.Enchantment;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
+import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 import org.bukkit.event.block.BlockBreakEvent;
 import org.bukkit.inventory.ItemStack;
@@ -28,10 +29,10 @@ public class Drop2InventoryPlugin extends JavaPlugin implements Listener {
         Metrics metrics = new Metrics(this);
 	}
 	
-	@EventHandler
+	@EventHandler(priority = EventPriority.HIGHEST)
 	public void onBlockBreak(BlockBreakEvent event) {
 		
-		System.out.println("Destroyed Block type: "+event.getBlock().getType().name());
+		//System.out.println("Destroyed Block type: "+event.getBlock().getType().name());
 		
 		if(event.isCancelled()) {
 			return;
@@ -54,7 +55,7 @@ public class Drop2InventoryPlugin extends JavaPlugin implements Listener {
 		
 		if(itemInMainHand.containsEnchantment(Enchantment.SILK_TOUCH)) {
 			hasSilkTouch=true;
-			System.out.println("Player has SILK TOUCH");
+			//System.out.println("Player has SILK TOUCH");
 		}
 		
 		ArrayList<ItemStack> drops;
