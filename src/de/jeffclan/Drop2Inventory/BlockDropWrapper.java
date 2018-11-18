@@ -53,7 +53,7 @@ public class BlockDropWrapper {
 		
 		// https://minecraft.gamepedia.com/Enchanting#Silk_Touch
 		
-		if(mat == Material.BEETROOTS) {
+		if(mat.name().equalsIgnoreCase("BEETROOTS")) {
 			if(isFullyGrown(blockDestroyed)) {
 				// fully grown
 				tmp.add(new ItemStack(Material.BEETROOT,1));
@@ -65,21 +65,21 @@ public class BlockDropWrapper {
 				// not fully grown
 				tmp.add(new ItemStack(Material.BEETROOT_SEEDS,1));
 			}
-		} else if(mat == Material.CAKE) {
+		} else if(mat.name().equalsIgnoreCase("CAKE")) {
 			return new ItemStack[0];
-		} else if(mat == Material.CARROTS) {
+		} else if(mat.name().equalsIgnoreCase("CARROTS")) {
 			if(isFullyGrown(blockDestroyed)) {
 				tmp.add(new ItemStack(Material.CARROT,rand.nextInt(4) + 1));
 			} else {
 				tmp.add(new ItemStack(Material.CARROT,1));
 			}
-		} else if(mat == Material.COAL_ORE) {
+		} else if(mat.name().equalsIgnoreCase("COAL_ORE")) {
 			if(isPickaxe(itemInMainHand)) {
 				tmp.add(new ItemStack(Material.COAL_ORE,1));
 			} else {
 				return new ItemStack[0];
 			}
-		} else if(mat==Material.COCOA) {
+		} else if(mat.name().equalsIgnoreCase("COCOA")) {
 			tmp.add(new ItemStack(Material.COCOA_BEANS, rand.nextInt(3)+1));
 		} else if(mat.name().toLowerCase().endsWith("_coral_block")) {
 			if(isPickaxe(itemInMainHand)) {
@@ -89,33 +89,33 @@ public class BlockDropWrapper {
 					tmp.add(item);
 				}
 			}
-		} else if(mat==Material.DIAMOND_ORE) {
+		} else if(mat.name().equalsIgnoreCase("DIAMOND_ORE")) {
 			if(isPickaxe(itemInMainHand)) {
 				tmp.add(new ItemStack(Material.DIAMOND_ORE,1));
 			} else {
 				return new ItemStack[0];
 			}
-		} else if(mat==Material.EMERALD_ORE) {
+		} else if(mat.name().equalsIgnoreCase("EMERALD_ORE")) {
 			if(isPickaxe(itemInMainHand)) {
 				tmp.add(new ItemStack(Material.EMERALD_ORE,1));
 			} else {
 				return new ItemStack[0];
 			}
-		} else if(mat==Material.FARMLAND) {
+		} else if(mat.name().equalsIgnoreCase("FARMLAND")) {
 			tmp.add(new ItemStack(Material.DIRT,1));
-		} else if(mat==Material.FIRE) {
+		} else if(mat.name().equalsIgnoreCase("FIRE")) {
 			return new ItemStack[0];
-		} else if(mat==Material.FROSTED_ICE) {
+		} else if(mat.name().equalsIgnoreCase("FROSTED_ICE")) {
 			return new ItemStack[0];
-		} else if(mat==Material.GRAVEL) {
+		} else if(mat.name().equalsIgnoreCase("GRAVEL")) {
 			tmp.add(new ItemStack(Material.GRAVEL,1));
-		} else if(mat==Material.LAPIS_ORE) {
+		} else if(mat.name().equalsIgnoreCase("LAPIS_ORE")) {
 			if(isPickaxe(itemInMainHand)) {
 				tmp.add(new ItemStack(Material.LAPIS_ORE,1));
 			} else {
 				return new ItemStack[0];
 			}
-		} else if(mat==Material.MELON_STEM) {
+		} else if(mat.name().equalsIgnoreCase("MELON_STEM")) {
 			if(!isFullyGrown(blockDestroyed)) {
 				return new ItemStack[0];
 			}
@@ -123,27 +123,27 @@ public class BlockDropWrapper {
 			if(seedcount>0) {
 				tmp.add(new ItemStack(Material.MELON_SEEDS,seedcount));
 			}
-		} else if(mat == Material.SPAWNER) {
+		} else if(mat.name().equalsIgnoreCase("SPAWNER")) {
 			return new ItemStack[0];
-		} else if(mat==Material.NETHER_QUARTZ_ORE) {
+		} else if(mat.name().equalsIgnoreCase("NETHER_QUARTZ_ORE")) {
 			if(isPickaxe(itemInMainHand)) {
 				tmp.add(new ItemStack(Material.QUARTZ,1));
 			} else {
 				return new ItemStack[0];
 			}
-		} else if(mat==Material.NETHER_WART) {
+		} else if(mat.name().equalsIgnoreCase("NETHER_WART")) {
 			if(isFullyGrown(blockDestroyed)) {
 				tmp.add(new ItemStack(Material.NETHER_WART,rand.nextInt(4)+1));
 			} else {
 				tmp.add(new ItemStack(Material.NETHER_WART,1));
 			}
-		} else if(mat==Material.POTATOES) {
+		} else if(mat.name().equalsIgnoreCase("POTATOES")) {
 			if(isFullyGrown(blockDestroyed)) {
 				tmp.add(new ItemStack(Material.POTATO,rand.nextInt(4)+1));
 			} else {
 				tmp.add(new ItemStack(Material.POTATO,1));
 			}
-		} else if(mat==Material.PUMPKIN_STEM) {
+		} else if(mat.name().equalsIgnoreCase("PUMPKIN_STEM")) {
 			if(!isFullyGrown(blockDestroyed)) {
 				return new ItemStack[0];
 			}
@@ -151,31 +151,31 @@ public class BlockDropWrapper {
 			if(seedcount>0) {
 				tmp.add(new ItemStack(Material.PUMPKIN_SEEDS,seedcount));
 			}
-		} else if(mat==Material.REDSTONE_ORE) {
+		} else if(mat.name().equalsIgnoreCase("REDSTONE_ORE")) {
 			if(isPickaxe(itemInMainHand) ) {
 				tmp.add(new ItemStack(Material.REDSTONE,rand.nextInt(1)+4));
 			} else {
 				return new ItemStack[0];
 			}
-		} else if(mat==Material.SNOW) {
+		} else if(mat.name().equalsIgnoreCase("SNOW")) {
 			if(isShovel(itemInMainHand)) {
 				tmp.add(new ItemStack(Material.SNOW,1));
 			} else {
 				tmp.add(new ItemStack(Material.SNOWBALL,1));
 			}
-		} else if(mat==Material.SNOW_BLOCK) {
+		} else if(mat.name().equalsIgnoreCase("SNOW_BLOCK")) {
 			if(isShovel(itemInMainHand)) {
 				tmp.add(new ItemStack(Material.SNOW_BLOCK,1));
 			} else {
 				tmp.add(new ItemStack(Material.SNOWBALL,4));
 			}
-		} else if(mat==Material.STONE) {
+		} else if(mat.name().equalsIgnoreCase("STONE")) {
 			if(isPickaxe(itemInMainHand)) {
 				tmp.add(new ItemStack(Material.STONE,1));
 			} else {
 				return new ItemStack[0];
 			}
-		} else if(mat==Material.WHEAT) {
+		} else if(mat.name().equalsIgnoreCase("WHEAT")) {
 			if(isFullyGrown(blockDestroyed)) {
 				tmp.add(new ItemStack(Material.WHEAT,1));
 				int seedcount = rand.nextInt(4);
@@ -210,7 +210,7 @@ public class BlockDropWrapper {
 		
 		ArrayList<ItemStack> tmp = new ArrayList<ItemStack>();
 		
-		if(mat == Material.BEETROOTS) {
+		if(mat.name().equalsIgnoreCase("BEETROOTS")) {
 			Ageable ageable = (Ageable) blockDestroyed.getBlockData();
 			if(ageable.getAge() == ageable.getMaximumAge()) {
 				// fully grown
@@ -223,23 +223,23 @@ public class BlockDropWrapper {
 				// not fully grown
 				tmp.add(new ItemStack(Material.BEETROOT_SEEDS,1));
 			}
-		} else if(mat == Material.CARROTS) {
+		} else if(mat.name().equalsIgnoreCase("CARROTS")) {
 			if(isFullyGrown(blockDestroyed)) {
 			tmp.add(new ItemStack(Material.CARROT,rand.nextInt(4) + 1));
 			} else {
 				tmp.add(new ItemStack(Material.CARROT,1));
 			}
-		} else if(mat==Material.COCOA) {
+		} else if(mat.name().equalsIgnoreCase("COCOA")) {
 			tmp.add(new ItemStack(Material.COCOA_BEANS, rand.nextInt(3)+1));
-		} else if(mat==Material.BLUE_ICE) {
+		} else if(mat.name().equalsIgnoreCase("BLUE_ICE")) {
 			return new ItemStack[0];
-		} else if(mat==Material.GRAVEL) {
+		} else if(mat.name().equalsIgnoreCase("GRAVEL")) {
 			if(rand.nextInt(10)==0) {
 				tmp.add(new ItemStack(Material.FLINT,1));
 			} else {
 				tmp.add(new ItemStack(Material.GRAVEL,1));
 			}
-		} else if(mat==Material.WHEAT) {
+		} else if(mat.name().equalsIgnoreCase("WHEAT")) {
 			if(isFullyGrown(blockDestroyed)) {
 				tmp.add(new ItemStack(Material.WHEAT,1));
 				int seedcount = rand.nextInt(4);

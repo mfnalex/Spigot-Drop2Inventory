@@ -32,6 +32,10 @@ public class Drop2InventoryPlugin extends JavaPlugin implements Listener {
 	@EventHandler(priority = EventPriority.HIGHEST)
 	public void onBlockBreak(BlockBreakEvent event) {
 		
+		if(event.getBlock().getType().name().toLowerCase().endsWith("shulker_box")) {
+			return;
+		}
+		
 		//System.out.println("Destroyed Block type: "+event.getBlock().getType().name());
 		
 		if(event.isCancelled()) {
