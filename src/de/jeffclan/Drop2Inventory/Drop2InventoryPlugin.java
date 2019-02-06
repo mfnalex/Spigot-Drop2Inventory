@@ -6,6 +6,8 @@ import java.util.HashMap;
 
 import org.bukkit.GameMode;
 import org.bukkit.Material;
+import org.bukkit.Sound;
+import org.bukkit.SoundCategory;
 import org.bukkit.block.Block;
 import org.bukkit.enchantments.Enchantment;
 import org.bukkit.entity.Player;
@@ -14,6 +16,8 @@ import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 import org.bukkit.event.block.BlockBreakEvent;
 import org.bukkit.inventory.ItemStack;
+import org.bukkit.inventory.meta.Damageable;
+import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.plugin.java.JavaPlugin;
 
 public class Drop2InventoryPlugin extends JavaPlugin implements Listener {
@@ -83,8 +87,36 @@ public class Drop2InventoryPlugin extends JavaPlugin implements Listener {
 			}
 		}
 		
+		if(event.getPlayer().getInventory().getItemInMainHand() != null) {
+			tryToTakeDurability(event.getPlayer().getInventory().getItemInMainHand(),event.getPlayer());
+		}
+		
 		event.setCancelled(true);
 		block.setType(Material.AIR);
+	}
+
+	private void tryToTakeDurability(ItemStack itemInMainHand,Player player) {
+		if(!(itemInMainHand.getItemMeta() instanceof Damageable) || itemInMainHand.getItemMeta() == null || itemInMainHand==null) {
+			//System.out.println("This item has no durability.");
+			return;
+		}
+		Damageable damageMeta = (Damageable) itemInMainHand.getItemMeta();
+		//System.out.println("Max Durabilty of "+itemInMainHand.getType().name() + ": "+itemInMainHand.getType().getMaxDurability());
+		//System.out.println("Current damage: "+damageMeta.getDamage());
+		
+		int currentDamage = damageMeta.getDamage();
+		short maxDamage = itemInMainHand.getType().getMaxDurability();
+		
+		int newDamage = currentDamage+1;
+		
+		damageMeta.setDamage(newDamage);
+		itemInMainHand.setItemMeta((ItemMeta)damageMeta);
+		
+		if(maxDamage > 0 && newDamage >= maxDamage) {
+			//System.out.println("This item should break NOW");
+			itemInMainHand.setAmount(0);
+			player.getWorld().playSound(player.getLocation(), Sound.ENTITY_ITEM_BREAK, SoundCategory.PLAYERS, 1.0f, 1.0f);
+		}
 	}
 
 }
