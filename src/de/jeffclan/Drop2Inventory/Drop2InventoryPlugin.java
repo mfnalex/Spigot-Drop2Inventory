@@ -115,7 +115,7 @@ public class Drop2InventoryPlugin extends JavaPlugin implements Listener {
 		
 		// Experience
 		int experience = event.getExpToDrop();
-		event.getPlayer().setExp(event.getPlayer().getExp() + experience);
+		event.getPlayer().giveExp(experience);
 		
 		event.setCancelled(true);
 		block.setType(Material.AIR);
