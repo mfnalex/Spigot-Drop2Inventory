@@ -1,0 +1,18 @@
+##########################
+##### Drop2Inventory #####
+##########################
+
+# Should we check for updates?
+# When enabled, a message is printed in the console if a new version has
+# been found, and OPs will be notified when they join the server.
+# When set to true, we will check for updates on startup and every 24 hours
+# When set to on-startup, we will only check on startup
+# When set to false, don't check for updates
+check-for-updates: true
+
+#########################
+#####     Done!     #####
+#########################
+
+# please do not change the following line manually!
+config-version: 1
