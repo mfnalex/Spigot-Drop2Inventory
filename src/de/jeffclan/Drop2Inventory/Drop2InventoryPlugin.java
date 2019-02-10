@@ -1,8 +1,10 @@
 package de.jeffclan.Drop2Inventory;
 
+import java.io.File;
+import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.HashMap;
+import java.util.UUID;
 
 import org.bukkit.Bukkit;
 import org.bukkit.GameMode;
@@ -10,41 +12,59 @@ import org.bukkit.Material;
 import org.bukkit.Sound;
 import org.bukkit.SoundCategory;
 import org.bukkit.block.Block;
+import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.enchantments.Enchantment;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 import org.bukkit.event.block.BlockBreakEvent;
+import org.bukkit.event.player.PlayerJoinEvent;
+import org.bukkit.event.player.PlayerQuitEvent;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.Damageable;
 import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.plugin.java.JavaPlugin;
 
+public class Drop2InventoryPlugin extends JavaPlugin {
 
-public class Drop2InventoryPlugin extends JavaPlugin implements Listener {
-	
 	BlockDropWrapper blockDropWrapper;
 	UpdateChecker updateChecker;
-	
-	int currentConfigVersion = 1;
+	Messages messages;
+
+	HashMap<String, PlayerSetting> perPlayerSettings;
+
+	int currentConfigVersion = 3;
 	boolean usingMatchingConfig = true;
-	
+	boolean enabledByDefault = false;
+	boolean showMessageWhenBreakingBlock = true;
+	boolean showMessageWhenBreakingBlockAndCollectionIsDisabled = false;
+	boolean showMessageAgainAfterLogout=true;
+
 	private static final int updateCheckInterval = 86400;
-	
+
 	public void onEnable() {
-		
+
 		createConfig();
+
+		perPlayerSettings = new HashMap<String, PlayerSetting>();
+		messages = new Messages(this);
+		CommandDrop2Inv commandDrop2Inv = new CommandDrop2Inv(this);
 		
-		this.getServer().getPluginManager().registerEvents(this, this);
-		
+		enabledByDefault = getConfig().getBoolean("enabled-by-default");
+		showMessageWhenBreakingBlock = getConfig().getBoolean("show-message-when-breaking-block");
+		showMessageWhenBreakingBlockAndCollectionIsDisabled = getConfig().getBoolean("show-message-when-breaking-block-and-collection-is-disabled");
+		showMessageAgainAfterLogout = getConfig().getBoolean("show-message-again-after-logout");
+
+		this.getServer().getPluginManager().registerEvents(new de.jeffclan.Drop2Inventory.Listener(this), this);
+
 		blockDropWrapper = new BlockDropWrapper();
 		updateChecker = new UpdateChecker(this);
-		
+
 		// All you have to do is adding this line in your onEnable method:
-        Metrics metrics = new Metrics(this);
-        
-        if (getConfig().getString("check-for-updates", "true").equalsIgnoreCase("true")) {
+		Metrics metrics = new Metrics(this);
+
+		if (getConfig().getString("check-for-updates", "true").equalsIgnoreCase("true")) {
 			Bukkit.getScheduler().scheduleSyncRepeatingTask(this, new Runnable() {
 				public void run() {
 					updateChecker.checkForUpdate();
@@ -53,104 +73,68 @@ public class Drop2InventoryPlugin extends JavaPlugin implements Listener {
 		} else if (getConfig().getString("check-for-updates", "true").equalsIgnoreCase("on-startup")) {
 			updateChecker.checkForUpdate();
 		}
-	}
-	
-	@EventHandler(priority = EventPriority.HIGHEST)
-	public void onBlockBreak(BlockBreakEvent event) {
 		
-		if(event.getBlock().getType().name().toLowerCase().endsWith("shulker_box")) {
-			return;
-		}
-		
-		//System.out.println("Destroyed Block type: "+event.getBlock().getType().name());
-		
-		if(event.isCancelled()) {
-			return;
-		}
-		
-		Player player = event.getPlayer();
-		
-		if(!player.hasPermission("drop2inventory.use")) {
-			return;
-		}
-		
-		Block block = event.getBlock();
-		boolean hasSilkTouch = false;
-		
-		if(player.getGameMode() == GameMode.CREATIVE) {
-			return;
-		}
-		
-		ItemStack itemInMainHand = player.getInventory().getItemInMainHand();
-		
-		if(itemInMainHand.containsEnchantment(Enchantment.SILK_TOUCH)) {
-			hasSilkTouch=true;
-			//System.out.println("Player has SILK TOUCH");
-		}
-		
-		ArrayList<ItemStack> drops;
-		
-		if(hasSilkTouch) {
-			drops = new ArrayList<ItemStack>();
-			for(ItemStack item : blockDropWrapper.getSilkTouchDrop(block,itemInMainHand)) {
-				drops.add(item);
-			}
-		} else {
-			drops = new ArrayList<ItemStack>();
-			for(ItemStack item : blockDropWrapper.getBlockDrop(block, itemInMainHand)) {
-				drops.add(item);
-			}
-		}
-		
-		for ( ItemStack item : drops) {
-			HashMap<Integer, ItemStack> leftOver = player.getInventory().addItem(item);
-			for(ItemStack leftoverItem : leftOver.values()) {
-				player.getWorld().dropItem(player.getLocation(),leftoverItem);
-			}
-		}
-		
-		if(event.getPlayer().getInventory().getItemInMainHand() != null) {
-			tryToTakeDurability(event.getPlayer().getInventory().getItemInMainHand(),event.getPlayer());
-		}
-		
-		// Experience
-		int experience = event.getExpToDrop();
-		event.getPlayer().giveExp(experience);
-		
-		event.setCancelled(true);
-		block.setType(Material.AIR);
+		this.getCommand("drop2inventory").setExecutor(commandDrop2Inv);
 	}
 
-	private void tryToTakeDurability(ItemStack itemInMainHand,Player player) {
-		if(!(itemInMainHand.getItemMeta() instanceof Damageable) || itemInMainHand.getItemMeta() == null || itemInMainHand==null) {
-			//System.out.println("This item has no durability.");
+	
+
+	void tryToTakeDurability(ItemStack itemInMainHand, Player player) {
+		if (!(itemInMainHand.getItemMeta() instanceof Damageable) || itemInMainHand.getItemMeta() == null
+				|| itemInMainHand == null) {
+			// System.out.println("This item has no durability.");
 			return;
 		}
 		Damageable damageMeta = (Damageable) itemInMainHand.getItemMeta();
-		//System.out.println("Max Durabilty of "+itemInMainHand.getType().name() + ": "+itemInMainHand.getType().getMaxDurability());
-		//System.out.println("Current damage: "+damageMeta.getDamage());
-		
+		// System.out.println("Max Durabilty of "+itemInMainHand.getType().name() + ":
+		// "+itemInMainHand.getType().getMaxDurability());
+		// System.out.println("Current damage: "+damageMeta.getDamage());
+
 		int currentDamage = damageMeta.getDamage();
 		short maxDamage = itemInMainHand.getType().getMaxDurability();
-		
-		int newDamage = currentDamage+1;
-		
+
+		int newDamage = currentDamage + 1;
+
 		damageMeta.setDamage(newDamage);
-		itemInMainHand.setItemMeta((ItemMeta)damageMeta);
-		
-		if(maxDamage > 0 && newDamage >= maxDamage) {
-			//System.out.println("This item should break NOW");
+		itemInMainHand.setItemMeta((ItemMeta) damageMeta);
+
+		if (maxDamage > 0 && newDamage >= maxDamage) {
+			// System.out.println("This item should break NOW");
 			itemInMainHand.setAmount(0);
-			player.getWorld().playSound(player.getLocation(), Sound.ENTITY_ITEM_BREAK, SoundCategory.PLAYERS, 1.0f, 1.0f);
+			player.getWorld().playSound(player.getLocation(), Sound.ENTITY_ITEM_BREAK, SoundCategory.PLAYERS, 1.0f,
+					1.0f);
 		}
 	}
-	
+
 	public void createConfig() {
 		saveDefaultConfig();
-		
-		getConfig().addDefault("check-for-updates", "true");
-		
-		
+
+
+
+		if (getConfig().getInt("config-version", 0) < 3) {
+			getLogger().warning("========================================================");
+			getLogger().warning("You are using a config file that has been generated");
+			getLogger().warning("prior to Drop2Inventory version 3.1.");
+			getLogger().warning("To allow everyone to use the new features, your config");
+			getLogger().warning("has been renamed to config.old.yml and a new one has");
+			getLogger().warning("been generated. Please examine the new config file to");
+			getLogger().warning("see the new possibilities and adjust your settings.");
+			getLogger().warning("========================================================");
+
+			File configFile = new File(getDataFolder().getAbsolutePath() + File.separator + "config.yml");
+			File oldConfigFile = new File(getDataFolder().getAbsolutePath() + File.separator + "config.old.yml");
+			if (oldConfigFile.getAbsoluteFile().exists()) {
+				oldConfigFile.getAbsoluteFile().delete();
+			}
+			configFile.getAbsoluteFile().renameTo(oldConfigFile.getAbsoluteFile());
+			saveDefaultConfig();
+			try {
+				getConfig().load(configFile.getAbsoluteFile());
+			} catch (IOException | org.bukkit.configuration.InvalidConfigurationException e) {
+				getLogger().warning("Could not load freshly generated config file!");
+				e.printStackTrace();
+			}
+		}
 		if (getConfig().getInt("config-version", 0) != currentConfigVersion) {
 			getLogger().warning("========================================================");
 			getLogger().warning("YOU ARE USING AN OLD CONFIG FILE!");
@@ -163,6 +147,89 @@ public class Drop2InventoryPlugin extends JavaPlugin implements Listener {
 			getLogger().warning("========================================================");
 			usingMatchingConfig = false;
 		}
+
+		File playerDataFolder = new File(getDataFolder().getPath() + File.separator + "playerdata");
+		if (!playerDataFolder.getAbsoluteFile().exists()) {
+			playerDataFolder.mkdir();
+		}
+		
+		// Default settings
+		getConfig().addDefault("enabled-by-default", false);
+		getConfig().addDefault("check-for-updates", "true");
+		getConfig().addDefault("show-message-when-breaking-block", true);
+		getConfig().addDefault("show-message-when-breaking-block-and-collection-is-enabled", false);
+		getConfig().addDefault("show-message-again-after-logout", true);
+		
+		
 	}
+	
+	public PlayerSetting getPlayerSetting(Player p) {
+		registerPlayer(p);
+		return perPlayerSettings.get(p.getUniqueId().toString());
+}
+	
+	public void registerPlayer(Player p) {
+		if (!perPlayerSettings.containsKey(p.getUniqueId().toString())) {
+			
+			File playerFile = new File(getDataFolder() + File.separator + "playerdata",
+					p.getUniqueId().toString() + ".yml");
+			YamlConfiguration playerConfig = YamlConfiguration.loadConfiguration(playerFile);
+
+			boolean activeForThisPlayer;
+
+			if (!playerFile.exists()) {
+				activeForThisPlayer = enabledByDefault;
+			} else {
+				activeForThisPlayer = playerConfig.getBoolean("enabled");
+			}
+
+			PlayerSetting newSettings = new PlayerSetting(activeForThisPlayer);
+			if (!getConfig().getBoolean("show-message-again-after-logout")) {
+				newSettings.hasSeenMessage = playerConfig.getBoolean("hasSeenMessage");
+			}
+			
+			
+			perPlayerSettings.put(p.getUniqueId().toString(), newSettings);
+		}
+}
+	
+	public void togglePlayerSetting(Player p) {
+		registerPlayer(p);
+		boolean enabled = perPlayerSettings.get(p.getUniqueId().toString()).enabled;
+		perPlayerSettings.get(p.getUniqueId().toString()).enabled = !enabled;
+}
+	
+	boolean enabled(Player p) {
+		
+		// The following is for all the lazy server admins who use /reload instead of properly restarting their
+		// server ;) I am sometimes getting stacktraces although it is clearly stated that /reload is NOT
+		// supported. So, here is a quick fix
+		if(perPlayerSettings == null) {
+			perPlayerSettings = new HashMap<String, PlayerSetting>();
+		}
+		registerPlayer(p);
+		// End of quick fix
+		
+		return perPlayerSettings.get(p.getUniqueId().toString()).enabled;
+}
+	
+	void unregisterPlayer(Player p) {
+		UUID uniqueId = p.getUniqueId();
+		if (perPlayerSettings.containsKey(uniqueId.toString())) {
+			PlayerSetting setting = perPlayerSettings.get(p.getUniqueId().toString());
+			File playerFile = new File(getDataFolder() + File.separator + "playerdata",
+					p.getUniqueId().toString() + ".yml");
+			YamlConfiguration playerConfig = YamlConfiguration.loadConfiguration(playerFile);
+			playerConfig.set("enabled", setting.enabled);
+			playerConfig.set("hasSeenMessage", setting.hasSeenMessage);
+			try {
+				playerConfig.save(playerFile);
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+
+			perPlayerSettings.remove(uniqueId.toString());
+		}
+}
 
 }

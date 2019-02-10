@@ -1,6 +1,6 @@
 main: de.jeffclan.Drop2Inventory.Drop2InventoryPlugin
 name: Drop2Inventory
-version: 3.0.1
+version: 3.1
 api-version: 1.13
 description: Items dropped by breaking blocks will be put into your inventory
 author: mfnalex
@@ -9,3 +9,9 @@ database: false
 permissions:
   drop2inventory.use:
     description: Allows usage of Drop2Inventory
+commands:
+  drop2inventory:
+    description: Toggle automatic drop collection
+    usage: /<command>
+    aliases: drop2inv
+    permission: drop2inventory.use
