@@ -48,9 +48,6 @@ public class Listener implements org.bukkit.event.Listener {
 			return;
 		}
 
-		// System.out.println("Destroyed Block type:
-		// "+event.getBlock().getType().name());
-
 		if (event.isCancelled()) {
 			return;
 		}
@@ -60,9 +57,6 @@ public class Listener implements org.bukkit.event.Listener {
 		if (!player.hasPermission("drop2inventory.use")) {
 			return;
 		}
-
-		Block block = event.getBlock();
-		boolean hasSilkTouch = false;
 
 		if (player.getGameMode() == GameMode.CREATIVE) {
 			return;
@@ -87,44 +81,7 @@ public class Listener implements org.bukkit.event.Listener {
 			}
 }
 
-		ItemStack itemInMainHand = player.getInventory().getItemInMainHand();
-
-		if (itemInMainHand.containsEnchantment(Enchantment.SILK_TOUCH)) {
-			hasSilkTouch = true;
-			// System.out.println("Player has SILK TOUCH");
-		}
-
-		ArrayList<ItemStack> drops;
-
-		if (hasSilkTouch) {
-			drops = new ArrayList<ItemStack>();
-			for (ItemStack item : plugin.blockDropWrapper.getSilkTouchDrop(block, itemInMainHand)) {
-				drops.add(item);
-			}
-		} else {
-			drops = new ArrayList<ItemStack>();
-			for (ItemStack item : plugin.blockDropWrapper.getBlockDrop(block, itemInMainHand)) {
-				drops.add(item);
-			}
-		}
-
-		for (ItemStack item : drops) {
-			HashMap<Integer, ItemStack> leftOver = player.getInventory().addItem(item);
-			for (ItemStack leftoverItem : leftOver.values()) {
-				player.getWorld().dropItem(player.getLocation(), leftoverItem);
-			}
-		}
-
-		if (event.getPlayer().getInventory().getItemInMainHand() != null) {
-			plugin.tryToTakeDurability(event.getPlayer().getInventory().getItemInMainHand(), event.getPlayer());
-		}
-
-		// Experience
-		int experience = event.getExpToDrop();
-		event.getPlayer().giveExp(experience);
-
-		event.setCancelled(true);
-		block.setType(Material.AIR);
+		plugin.dropHandler.drop2inventory(event);
 	}
 
 }

@@ -29,6 +29,7 @@ import org.bukkit.plugin.java.JavaPlugin;
 public class Drop2InventoryPlugin extends JavaPlugin {
 
 	BlockDropWrapper blockDropWrapper;
+	DropHandler dropHandler;
 	UpdateChecker updateChecker;
 	Messages messages;
 
@@ -48,6 +49,7 @@ public class Drop2InventoryPlugin extends JavaPlugin {
 		createConfig();
 
 		perPlayerSettings = new HashMap<String, PlayerSetting>();
+		dropHandler = new DropHandler(this);
 		messages = new Messages(this);
 		CommandDrop2Inv commandDrop2Inv = new CommandDrop2Inv(this);
 		
