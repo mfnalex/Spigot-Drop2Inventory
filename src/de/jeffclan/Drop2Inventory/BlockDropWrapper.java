@@ -89,13 +89,12 @@ public class BlockDropWrapper {
 		} else if(mat.name().equalsIgnoreCase("COCOA")) {
 			tmp.add(new ItemStack(Material.COCOA_BEANS, rand.nextInt(3)+1));
 		} else if(mat.name().toLowerCase().endsWith("_coral_block")) {
-			if(isPickaxe(itemInMainHand)) {
+			//if(isPickaxe(itemInMainHand)) {
 				tmp.add(new ItemStack(mat,1));
-			} else {
-				for(ItemStack item : getBlockDrop(blockDestroyed,itemInMainHand)) {
-					tmp.add(item);
-				}
-			}
+			//} else {
+				//for(ItemStack item : getBlockDrop(blockDestroyed,itemInMainHand, fortuneLevel)) {
+					//tmp.add(item);
+				//}
 		} else if(mat.name().equalsIgnoreCase("DIAMOND_ORE")) {
 			if(isPickaxe(itemInMainHand)) {
 				tmp.add(new ItemStack(Material.DIAMOND_ORE,1));
@@ -211,7 +210,7 @@ public class BlockDropWrapper {
 		return result;
 	}
 	
-	public ItemStack[] getBlockDrop(Block blockDestroyed,ItemStack itemInMainHand) {
+	public ItemStack[] getBlockDrop(Block blockDestroyed,ItemStack itemInMainHand, int fortuneLevel) {
 		
 		Material mat = blockDestroyed.getType();
 		

@@ -18,16 +18,25 @@ public class DropHandler {
 		this.plugin=plugin;
 	}
 	
+	
+	
 	void drop2inventory(BlockBreakEvent event) {
 		
 		Player player = event.getPlayer();
 		Block block = event.getBlock();
 		boolean hasSilkTouch = false;
+		//boolean hasFortune = false;
+		int fortuneLevel = 0;
 		
 		ItemStack itemInMainHand = player.getInventory().getItemInMainHand();
 
 		if (itemInMainHand.containsEnchantment(Enchantment.SILK_TOUCH)) {
 			hasSilkTouch = true;
+		}
+		
+		if(itemInMainHand.containsEnchantment(Enchantment.LOOT_BONUS_BLOCKS)) {
+			//hasFortune=true;
+			fortuneLevel = itemInMainHand.getEnchantmentLevel(Enchantment.LOOT_BONUS_BLOCKS);
 		}
 
 		ArrayList<ItemStack> drops;
@@ -39,7 +48,7 @@ public class DropHandler {
 			}
 		} else {
 			drops = new ArrayList<ItemStack>();
-			for (ItemStack item : plugin.blockDropWrapper.getBlockDrop(block, itemInMainHand)) {
+			for (ItemStack item : plugin.blockDropWrapper.getBlockDrop(block, itemInMainHand, fortuneLevel)) {
 				drops.add(item);
 			}
 		}
@@ -55,9 +64,6 @@ public class DropHandler {
 			plugin.tryToTakeDurability(event.getPlayer().getInventory().getItemInMainHand(), event.getPlayer());
 		}
 
-		// Experience
-		int experience = event.getExpToDrop();
-		event.getPlayer().giveExp(experience);
 
 		event.setCancelled(true);
 		block.setType(Material.AIR);

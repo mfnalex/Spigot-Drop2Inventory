@@ -2,15 +2,22 @@ package de.jeffclan.Drop2Inventory;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 
 import org.bukkit.GameMode;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
 import org.bukkit.enchantments.Enchantment;
+import org.bukkit.entity.Entity;
+import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.block.BlockBreakEvent;
+import org.bukkit.event.entity.EntityDamageByEntityEvent;
+import org.bukkit.event.entity.EntityDamageEvent;
+import org.bukkit.event.entity.EntityDeathEvent;
+import org.bukkit.event.entity.EntityDamageEvent.DamageCause;
 import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.event.player.PlayerQuitEvent;
 import org.bukkit.inventory.ItemStack;
@@ -42,10 +49,55 @@ public class Listener implements org.bukkit.event.Listener {
 }
 	
 	@EventHandler(priority = EventPriority.HIGHEST)
+	public void onEntityDeath(EntityDeathEvent event) {
+		LivingEntity entity = event.getEntity();
+		if (entity.getKiller() == null) {
+			return;
+		}
+		
+		
+		
+		if (!entity.getKiller().hasPermission("drop2inventory.use")) {
+			return;
+		}
+		
+		// Fix for /reload
+		plugin.registerPlayer(entity.getKiller());
+		
+		if (!plugin.enabled(entity.getKiller())) {
+			return;
+		}
+		
+		if (entity.getKiller().getGameMode() == GameMode.CREATIVE) {
+			return;
+		}
+		
+
+		if(plugin.getConfig().getBoolean("collect-mob-exp")) {
+			int exp = event.getDroppedExp();
+			event.setDroppedExp(0);
+			entity.getKiller().giveExp(exp);
+		}
+		if(!plugin.getConfig().getBoolean("collect-mob-drops")) {
+			return;
+		}
+		
+		//entity.getKiller().sendMessage("You have killed entity "+entity.getName());
+
+		List<ItemStack> drops = event.getDrops();
+		for(ItemStack is : drops) {
+			entity.getKiller().getInventory().addItem(is);
+		}
+		event.getDrops().clear();
+	}
+
+	
+	@EventHandler(priority = EventPriority.HIGHEST)
 	public void onBlockBreak(BlockBreakEvent event) {
 		
 		//System.out.println("BlockBreakEvent "+event.getBlock().getType().name());
 		
+
 
 		// TODO: Drop shulker box to inv but keep contents
 		if (event.getBlock().getType().name().toLowerCase().endsWith("shulker_box")) {
@@ -61,6 +113,9 @@ public class Listener implements org.bukkit.event.Listener {
 		if (!player.hasPermission("drop2inventory.use")) {
 			return;
 		}
+		
+		// Fix for /reload
+		plugin.registerPlayer(event.getPlayer());
 
 		if (player.getGameMode() == GameMode.CREATIVE) {
 			return;
@@ -71,8 +126,17 @@ public class Listener implements org.bukkit.event.Listener {
 			return;
 		}
 		
-		// Fix for /reload
-		plugin.registerPlayer(event.getPlayer());
+		if(plugin.enabled(player) && plugin.getConfig().getBoolean("collect-block-exp")) {
+			int experience = event.getExpToDrop();
+			event.getPlayer().giveExp(experience);
+			event.setExpToDrop(0);
+		}
+		
+		if(!plugin.getConfig().getBoolean("collect-block-drops")) {
+			return;
+		}
+		
+
 		
 		PlayerSetting setting = plugin.perPlayerSettings.get(player.getUniqueId().toString());
 		
@@ -92,6 +156,8 @@ public class Listener implements org.bukkit.event.Listener {
 				}
 			}
 }
+		
+
 
 		plugin.dropHandler.drop2inventory(event);
 	}

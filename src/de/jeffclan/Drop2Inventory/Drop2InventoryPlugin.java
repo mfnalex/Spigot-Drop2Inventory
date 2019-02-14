@@ -36,7 +36,7 @@ public class Drop2InventoryPlugin extends JavaPlugin {
 	HashMap<String, PlayerSetting> perPlayerSettings;
 	ArrayList<String> disabledBlocks;
 
-	int currentConfigVersion = 4;
+	int currentConfigVersion = 6;
 	boolean usingMatchingConfig = true;
 	boolean enabledByDefault = false;
 	boolean showMessageWhenBreakingBlock = true;
@@ -80,6 +80,13 @@ public class Drop2InventoryPlugin extends JavaPlugin {
 		
 		this.getCommand("drop2inventory").setExecutor(commandDrop2Inv);
 	}
+	
+	@Override
+	public void onDisable() {
+		for (Player p : getServer().getOnlinePlayers()) {
+			unregisterPlayer(p);
+		}
+}
 
 	
 
@@ -93,6 +100,7 @@ public class Drop2InventoryPlugin extends JavaPlugin {
 		// System.out.println("Max Durabilty of "+itemInMainHand.getType().name() + ":
 		// "+itemInMainHand.getType().getMaxDurability());
 		// System.out.println("Current damage: "+damageMeta.getDamage());
+
 
 		int currentDamage = damageMeta.getDamage();
 		short maxDamage = itemInMainHand.getType().getMaxDurability();
@@ -163,6 +171,10 @@ public class Drop2InventoryPlugin extends JavaPlugin {
 		getConfig().addDefault("show-message-when-breaking-block", true);
 		getConfig().addDefault("show-message-when-breaking-block-and-collection-is-enabled", false);
 		getConfig().addDefault("show-message-again-after-logout", true);
+		getConfig().addDefault("collect-block-drops", true);
+		getConfig().addDefault("collect-mob-drops", true);
+		getConfig().addDefault("collect-block-exp", true);
+		getConfig().addDefault("collect-mob-exp", true);
 		
 		disabledBlocks = (ArrayList<String>) getConfig().getStringList("disabled-blocks");
 		for(int i = 0; i<disabledBlocks.size();i++) {
