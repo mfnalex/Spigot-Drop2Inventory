@@ -115,10 +115,10 @@ public class Drop2InventoryPlugin extends JavaPlugin {
 
 
 
-		if (getConfig().getInt("config-version", 0) < 3) {
+		if (getConfig().getInt("config-version", 0) < 4) {
 			getLogger().warning("========================================================");
 			getLogger().warning("You are using a config file that has been generated");
-			getLogger().warning("prior to Drop2Inventory version 3.1.");
+			getLogger().warning("prior to Drop2Inventory version 3.3.");
 			getLogger().warning("To allow everyone to use the new features, your config");
 			getLogger().warning("has been renamed to config.old.yml and a new one has");
 			getLogger().warning("been generated. Please examine the new config file to");

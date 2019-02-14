@@ -77,6 +77,18 @@ message-enabled: "&7Automatic drop collection has been &aenabled&7."
 message-when-breaking-block: "&7Hint: Type &6/drop2inventory&7 or &6/drop2inv&7 to enable automatic drop collection."
 message-when-breaking-block2: "&7Hint: Type &6/drop2inventory&7 or &6/drop2inv&7 to disable automatic drop collection."
 
+##### German
+#message-disabled: "&7Automatisches Einsammeln &cdeaktiviert&7."
+#message-enabled: "&7Automatisches Einsammeln &aaktiviert&7."
+#message-when-breaking-block: "&7Hinweis: Benutze &6/drop2inventory&7 oder &6/drop2inv&7 um das automatische Einsammeln zu aktivieren."
+#message-when-breaking-block2: "&7Hinweis: Benutze &6/drop2inventory&7 oder &6/drop2inv&7 um das automatische Einsammeln zu deaktivieren."
+
+##### Turkish - thanks to @successed for the translation
+#message-disabled: "&bDrop2Inventory: &cKAPANDI"
+#message-enabled: "&bDrop2Inventory: &aAÇILDI"
+#message-when-breaking-block: "&bDrop2Inventory: &6Kırdığınız eşyaların otomatik olarak üzerinize gelmesini istiyorsanız &4/Drop2Inventory"
+#message-when-breaking-block2: "&bDrop2Inventory: &6Kırdığınız eşyaların otomatik olarak üzerinize gelmesini kapatmak için &4/Drop2Inventory"
+
 #########################
 #####     Done!     #####
 #########################
