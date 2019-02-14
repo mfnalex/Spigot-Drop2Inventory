@@ -7,7 +7,10 @@ import java.util.Random;
 
 import org.bukkit.Material;
 import org.bukkit.block.Block;
+import org.bukkit.block.BlockFace;
 import org.bukkit.block.data.Ageable;
+import org.bukkit.block.data.Bisected.Half;
+import org.bukkit.block.data.type.Door;
 import org.bukkit.inventory.ItemStack;
 
 public class BlockDropWrapper {
@@ -52,6 +55,10 @@ public class BlockDropWrapper {
 		Material mat = blockDestroyed.getType();
 		
 		// https://minecraft.gamepedia.com/Enchanting#Silk_Touch
+		
+		if(mat.name().toLowerCase().endsWith("_door")) {
+			doDoorDrop(mat,blockDestroyed,tmp);
+		}
 		
 		if(mat.name().equalsIgnoreCase("BEETROOTS")) {
 			if(isFullyGrown(blockDestroyed)) {
@@ -210,7 +217,10 @@ public class BlockDropWrapper {
 		
 		ArrayList<ItemStack> tmp = new ArrayList<ItemStack>();
 		
-		if(mat.name().equalsIgnoreCase("BEETROOTS")) {
+		if(mat.name().toLowerCase().endsWith("_door")) {
+			doDoorDrop(mat,blockDestroyed,tmp);
+			
+		} else if(mat.name().equalsIgnoreCase("BEETROOTS")) {
 			Ageable ageable = (Ageable) blockDestroyed.getBlockData();
 			if(ageable.getAge() == ageable.getMaximumAge()) {
 				// fully grown
@@ -262,6 +272,20 @@ public class BlockDropWrapper {
 		Collection<ItemStack> drops = blockDestroyed.getDrops(itemInMainHand);		
 			return drops.toArray(new ItemStack[drops.size()]);
 		}
+	}
+	
+	private void doDoorDrop(Material mat, Block blockDestroyed,ArrayList<ItemStack> tmp) {
+		if(mat.name().toLowerCase().endsWith("_door")) {
+			//System.out.println("Processing door");
+			Door doorMeta = (Door) blockDestroyed.getBlockData();
+			if(doorMeta.getHalf() == Half.TOP) {
+				tmp.add(new ItemStack(mat,1));
+				
+				// TODO: Before deleting the bottom half, check if it really is a door
+				blockDestroyed.getRelative(BlockFace.DOWN).setType(Material.AIR);
+			}
+			
+		} 
 	}
 
 }

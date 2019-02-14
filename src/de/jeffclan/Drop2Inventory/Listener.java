@@ -43,6 +43,11 @@ public class Listener implements org.bukkit.event.Listener {
 	
 	@EventHandler(priority = EventPriority.HIGHEST)
 	public void onBlockBreak(BlockBreakEvent event) {
+		
+		//System.out.println("BlockBreakEvent "+event.getBlock().getType().name());
+		
+		// Fix for /reload
+		plugin.registerPlayer(event.getPlayer());
 
 		if (event.getBlock().getType().name().toLowerCase().endsWith("shulker_box")) {
 			return;
