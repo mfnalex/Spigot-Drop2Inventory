@@ -12,16 +12,16 @@ public class Messages {
 		this.plugin = plugin;
 
 		MSG_ACTIVATED = ChatColor.translateAlternateColorCodes('&', plugin.getConfig()
-				.getString("message-sorting-enabled", "&7Automatic drop collection has been &aenabled&7.&r"));
+				.getString("message-enabled", "&7Automatic drop collection has been &aenabled&7.&r"));
 
 		MSG_DEACTIVATED = ChatColor.translateAlternateColorCodes('&', plugin.getConfig()
-				.getString("message-sorting-disabled", "&7Automatic drop collection has been &cdisabled&7.&r"));
+				.getString("message-disabled", "&7Automatic drop collection has been &cdisabled&7.&r"));
 
 		MSG_COMMANDMESSAGE = ChatColor.translateAlternateColorCodes('&', plugin.getConfig().getString(
 				"message-when-breaking-block", "&7Hint: Type &6/drop2inventory&7 or &6/drop2inv&7 to enable automatic drop collection."));
 
 		MSG_COMMANDMESSAGE2 = ChatColor.translateAlternateColorCodes('&', plugin.getConfig().getString(
-"message-when-breaking-block-and-collection-is-enabled", "&7Hint: Type &6/drop2inventory&7 or &6/drop2inv&7 to disable automatic drop collection."));
+"message-when-breaking-block2", "&7Hint: Type &6/drop2inventory&7 or &6/drop2inv&7 to disable automatic drop collection."));
 	}
 
 }

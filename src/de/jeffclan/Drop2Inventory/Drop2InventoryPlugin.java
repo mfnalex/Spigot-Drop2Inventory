@@ -34,8 +34,9 @@ public class Drop2InventoryPlugin extends JavaPlugin {
 	Messages messages;
 
 	HashMap<String, PlayerSetting> perPlayerSettings;
+	ArrayList<String> disabledBlocks;
 
-	int currentConfigVersion = 3;
+	int currentConfigVersion = 4;
 	boolean usingMatchingConfig = true;
 	boolean enabledByDefault = false;
 	boolean showMessageWhenBreakingBlock = true;
@@ -47,6 +48,8 @@ public class Drop2InventoryPlugin extends JavaPlugin {
 	public void onEnable() {
 
 		createConfig();
+		
+		
 
 		perPlayerSettings = new HashMap<String, PlayerSetting>();
 		dropHandler = new DropHandler(this);
@@ -63,7 +66,6 @@ public class Drop2InventoryPlugin extends JavaPlugin {
 		blockDropWrapper = new BlockDropWrapper();
 		updateChecker = new UpdateChecker(this);
 
-		// All you have to do is adding this line in your onEnable method:
 		Metrics metrics = new Metrics(this);
 
 		if (getConfig().getString("check-for-updates", "true").equalsIgnoreCase("true")) {
@@ -161,6 +163,11 @@ public class Drop2InventoryPlugin extends JavaPlugin {
 		getConfig().addDefault("show-message-when-breaking-block", true);
 		getConfig().addDefault("show-message-when-breaking-block-and-collection-is-enabled", false);
 		getConfig().addDefault("show-message-again-after-logout", true);
+		
+		disabledBlocks = (ArrayList<String>) getConfig().getStringList("disabled-blocks");
+		for(int i = 0; i<disabledBlocks.size();i++) {
+			disabledBlocks.set(i, disabledBlocks.get(i).toLowerCase());
+		}
 		
 		
 	}

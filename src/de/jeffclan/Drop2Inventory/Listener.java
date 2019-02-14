@@ -46,9 +46,8 @@ public class Listener implements org.bukkit.event.Listener {
 		
 		//System.out.println("BlockBreakEvent "+event.getBlock().getType().name());
 		
-		// Fix for /reload
-		plugin.registerPlayer(event.getPlayer());
 
+		// TODO: Drop shulker box to inv but keep contents
 		if (event.getBlock().getType().name().toLowerCase().endsWith("shulker_box")) {
 			return;
 		}
@@ -66,6 +65,14 @@ public class Listener implements org.bukkit.event.Listener {
 		if (player.getGameMode() == GameMode.CREATIVE) {
 			return;
 		}
+		
+		// disabled block?
+		if(!Utils.isBlockEnabled(event.getBlock().getType(), plugin)) {
+			return;
+		}
+		
+		// Fix for /reload
+		plugin.registerPlayer(event.getPlayer());
 		
 		PlayerSetting setting = plugin.perPlayerSettings.get(player.getUniqueId().toString());
 		

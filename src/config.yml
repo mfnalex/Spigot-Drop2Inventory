@@ -37,6 +37,24 @@ show-message-again-after-logout: true
 check-for-updates: true
 
 #########################
+#### disabled blocks ####
+#########################
+
+# You can disable automatic drop collection for certain blocks.
+# This can be helpful if you use plugins that change certain block drops
+# because Drop2Inventory only detects "vanilla" drops.
+# Each block's material name has to be on a separate line, starting
+# with a hyphen and followed by a space
+
+# Example:
+#
+# disabled-blocks:
+# - spawner
+# - grass_block
+
+disabled-blocks:
+
+#########################
 ##### localization ######
 #########################
 
@@ -64,4 +82,4 @@ message-when-breaking-block2: "&7Hint: Type &6/drop2inventory&7 or &6/drop2inv&7
 #########################
 
 # please do not change the following line manually!
-config-version: 3
+config-version: 4
