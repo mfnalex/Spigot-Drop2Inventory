@@ -97,7 +97,7 @@ public class Listener implements org.bukkit.event.Listener {
 		
 		//System.out.println("BlockBreakEvent "+event.getBlock().getType().name());
 		
-
+		
 
 		// TODO: Drop shulker box to inv but keep contents
 		if (event.getBlock().getType().name().toLowerCase().endsWith("shulker_box")) {
