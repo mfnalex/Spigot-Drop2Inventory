@@ -258,6 +258,10 @@ public class BlockDropWrapper {
 			} else {
 				tmp.add(new ItemStack(Material.WHEAT_SEEDS,1));
 			}
+		} else if(mat.name().equalsIgnoreCase("SNOW")) {
+			if(isShovel(itemInMainHand)) {
+				tmp.add(new ItemStack(Material.SNOWBALL));
+			}
 		}
 		
 		if(tmp.size()>0) {
