@@ -48,9 +48,9 @@ show-message-again-after-logout: true
 # When set to false, don't check for updates
 check-for-updates: true
 
-#########################
-#### disabled blocks ####
-#########################
+#################################
+#### disabled/enabled blocks ####
+#################################
 
 # You can disable automatic drop collection for certain blocks.
 # This can be helpful if you use plugins that change certain block drops
@@ -64,7 +64,31 @@ check-for-updates: true
 # - spawner
 # - grass_block
 
+# If you wish to use a whitelist instead of a blacklist,
+# change the "disabled-blocks:" to "enabled-blocks:"
+
 disabled-blocks:
+
+#################################
+#### disabled/enabled mobs  ####
+#################################
+
+# You can disable automatic drop collection for certain mob types.
+# This can be helpful if you use plugins that change certain mob drops
+# because Drop2Inventory only detects "vanilla" drops.
+# Each mob's name has to be on a separate line, starting
+# with a hyphen and followed by a space
+
+# Example:
+#
+# disabled-mobs:
+# - bat
+# - cave_spider
+
+# If you wish to use a whitelist instead of a blacklist,
+# change the "disabled-mobs:" to "enabled-mobs:"
+
+disabled-mobs:
 
 #########################
 ##### localization ######
@@ -75,7 +99,7 @@ disabled-blocks:
 # &1 Dark Blue    &7 Gray       &d Light Purple
 # &2 Dark Green   &8 Dark Gray  &e Yellow
 # &3 Dark Aqua    &9 Blue       &f White
-# &4 Dark Red     &a Green     
+# &4 Dark Red     &a Green
 # &5 Dark Purple  &b Aqua
 
 # Available formatting codes:
@@ -97,13 +121,13 @@ message-when-breaking-block2: "&7Hint: Type &6/drop2inventory&7 or &6/drop2inv&7
 
 ##### Turkish - thanks to @successed for the translation
 #message-disabled: "&bDrop2Inventory: &cKAPANDI"
-#message-enabled: "&bDrop2Inventory: &aAÇILDI"
-#message-when-breaking-block: "&bDrop2Inventory: &6Kırdığınız eşyaların otomatik olarak üzerinize gelmesini istiyorsanız &4/Drop2Inventory"
-#message-when-breaking-block2: "&bDrop2Inventory: &6Kırdığınız eşyaların otomatik olarak üzerinize gelmesini kapatmak için &4/Drop2Inventory"
+#message-enabled: "&bDrop2Inventory: &aA
+#message-when-breaking-block: "&bDrop2Inventory: &6Keotomatik olarak gelmesini istiyorsan&4/Drop2Inventory"
+#message-when-breaking-block2: "&bDrop2Inventory: &6Keotomatik olarak gelmesini kapatmak i&4/Drop2Inventory"
 
 #########################
 #####     Done!     #####
 #########################
 
 # please do not change the following line manually!
-config-version: 6
+config-version: 8

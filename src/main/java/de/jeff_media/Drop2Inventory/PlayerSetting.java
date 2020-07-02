@@ -1,4 +1,4 @@
-package de.jeffclan.Drop2Inventory;
+package de.jeff_media.Drop2Inventory;
 
 public class PlayerSetting {
 	boolean enabled;

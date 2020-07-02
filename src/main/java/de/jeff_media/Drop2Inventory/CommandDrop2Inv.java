@@ -1,4 +1,4 @@
-package de.jeffclan.Drop2Inventory;
+package de.jeff_media.Drop2Inventory;
 
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
@@ -7,9 +7,9 @@ import org.bukkit.entity.Player;
 
 public class CommandDrop2Inv implements CommandExecutor {
 	
-	Drop2InventoryPlugin plugin;
+	Main plugin;
 	
-	public CommandDrop2Inv(Drop2InventoryPlugin plugin) {
+	public CommandDrop2Inv(Main plugin) {
 		this.plugin=plugin;
 	}
 

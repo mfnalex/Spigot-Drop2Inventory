@@ -1,11 +1,9 @@
-package de.jeffclan.Drop2Inventory;
+package de.jeff_media.Drop2Inventory;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Random;
 
-import org.bukkit.Bukkit;
-import org.bukkit.Material;
 import org.bukkit.block.Block;
 import org.bukkit.enchantments.Enchantment;
 import org.bukkit.entity.Player;
@@ -14,10 +12,10 @@ import org.bukkit.inventory.ItemStack;
 
 public class DropHandler {
 	
-	Drop2InventoryPlugin plugin;
+	Main plugin;
 	Random rand = new Random();
 	
-	DropHandler(Drop2InventoryPlugin plugin) {
+	DropHandler(Main plugin) {
 		this.plugin=plugin;
 	}
 	
@@ -74,10 +72,13 @@ public class DropHandler {
 			plugin.tryToTakeDurability(event.getPlayer().getInventory().getItemInMainHand(), event.getPlayer());
 		}
 
+		event.setDropItems(false);
+
+		//CraftMagicNumbers.getBlock(block).getDropCount(fortuneLevel, random);
 
 
-		event.setCancelled(true);
-		block.setType(Material.AIR);
+		//event.setCancelled(true);
+		//block.setType(Material.AIR);
 	}
 	
 	ItemStack applyFortune(ItemStack itemStack, int fortuneLevel) {

@@ -1,14 +1,14 @@
-package de.jeffclan.Drop2Inventory;
+package de.jeff_media.Drop2Inventory;
 
 import org.bukkit.ChatColor;
 
 public class Messages {
 
-	Drop2InventoryPlugin plugin;
+	Main plugin;
 
 	final String MSG_ACTIVATED, MSG_DEACTIVATED, MSG_COMMANDMESSAGE, MSG_COMMANDMESSAGE2;
 
-	Messages(Drop2InventoryPlugin plugin) {
+	Messages(Main plugin) {
 		this.plugin = plugin;
 
 		MSG_ACTIVATED = ChatColor.translateAlternateColorCodes('&', plugin.getConfig()

@@ -1,33 +1,26 @@
-package de.jeffclan.Drop2Inventory;
+package de.jeff_media.Drop2Inventory;
 
-import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 
 import org.bukkit.GameMode;
-import org.bukkit.Material;
-import org.bukkit.block.Block;
-import org.bukkit.enchantments.Enchantment;
-import org.bukkit.entity.Entity;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.block.BlockBreakEvent;
-import org.bukkit.event.entity.EntityDamageByEntityEvent;
-import org.bukkit.event.entity.EntityDamageEvent;
 import org.bukkit.event.entity.EntityDeathEvent;
-import org.bukkit.event.entity.EntityDamageEvent.DamageCause;
 import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.event.player.PlayerQuitEvent;
 import org.bukkit.inventory.ItemStack;
 
 public class Listener implements org.bukkit.event.Listener {
 	
-	Drop2InventoryPlugin plugin;
+	Main plugin;
+	Utils utils;
 	
-	Listener(Drop2InventoryPlugin plugin) {
+	Listener(Main plugin) {
 		this.plugin=plugin;
+		this.utils = plugin.utils;
 	}
 	
 	@EventHandler
@@ -55,8 +48,6 @@ public class Listener implements org.bukkit.event.Listener {
 			return;
 		}
 		
-		
-		
 		if (!entity.getKiller().hasPermission("drop2inventory.use")) {
 			return;
 		}
@@ -69,6 +60,10 @@ public class Listener implements org.bukkit.event.Listener {
 		}
 		
 		if (entity.getKiller().getGameMode() == GameMode.CREATIVE) {
+			return;
+		}
+
+		if(!utils.isMobEnabled(entity)) {
 			return;
 		}
 		
@@ -122,7 +117,7 @@ public class Listener implements org.bukkit.event.Listener {
 		}
 		
 		// disabled block?
-		if(!Utils.isBlockEnabled(event.getBlock().getType(), plugin)) {
+		if(!utils.isBlockEnabled(event.getBlock().getType())) {
 			return;
 		}
 		
