@@ -68,18 +68,14 @@ public class Main extends JavaPlugin {
 		utils = new Utils(this);
 		blockDropWrapper = new BlockDropWrapper();
 		updateChecker = new PluginUpdateChecker(this,"https://api.jeff-media.de/drop2inventory/drop2inventory-latest-version.txt",
-				"https://www.spigotmc.org/resources/1-9-1-16-drop2inventory.62214/","");
+				"https://www.spigotmc.org/resources/1-9-1-16-drop2inventory.62214/","https://github.com/JEFF-Media-GbR/Spigot-Drop2Inventory/blob/master/CHANGELOG.md","https://paypal.me/mfnalex");
 
 		Metrics metrics = new Metrics(this,3532);
 
 		if (getConfig().getString("check-for-updates", "true").equalsIgnoreCase("true")) {
-			Bukkit.getScheduler().scheduleSyncRepeatingTask(this, new Runnable() {
-				public void run() {
-					updateChecker.checkForUpdate();
-				}
-			}, 0L, updateCheckInterval * 20);
+			updateChecker.check((long) updateCheckInterval);
 		} else if (getConfig().getString("check-for-updates", "true").equalsIgnoreCase("on-startup")) {
-			updateChecker.checkForUpdate();
+			updateChecker.check();
 		}
 		
 		this.getCommand("drop2inventory").setExecutor(commandDrop2Inv);

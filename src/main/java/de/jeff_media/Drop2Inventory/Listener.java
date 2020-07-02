@@ -25,11 +25,6 @@ public class Listener implements org.bukkit.event.Listener {
 	
 	@EventHandler
 	public void onPlayerJoin(PlayerJoinEvent event) {
-
-
-		if (event.getPlayer().isOp()) {
-			plugin.updateChecker.sendUpdateMessage(event.getPlayer());
-		}
 		
 		plugin.registerPlayer(event.getPlayer());
 
