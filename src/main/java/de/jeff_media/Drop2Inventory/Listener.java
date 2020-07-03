@@ -16,11 +16,9 @@ import org.bukkit.inventory.ItemStack;
 public class Listener implements org.bukkit.event.Listener {
 	
 	Main plugin;
-	Utils utils;
 	
 	Listener(Main plugin) {
 		this.plugin=plugin;
-		this.utils = plugin.utils;
 	}
 	
 	@EventHandler
@@ -58,7 +56,7 @@ public class Listener implements org.bukkit.event.Listener {
 			return;
 		}
 
-		if(!utils.isMobEnabled(entity)) {
+		if(!plugin.utils.isMobEnabled(entity)) {
 			return;
 		}
 		
@@ -112,7 +110,7 @@ public class Listener implements org.bukkit.event.Listener {
 		}
 		
 		// disabled block?
-		if(!utils.isBlockEnabled(event.getBlock().getType())) {
+		if(!plugin.utils.isBlockEnabled(event.getBlock().getType())) {
 			return;
 		}
 		
