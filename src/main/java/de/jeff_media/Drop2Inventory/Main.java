@@ -50,8 +50,6 @@ public class Main extends JavaPlugin {
 	public void onEnable() {
 
 		createConfig();
-		
-		
 
 		perPlayerSettings = new HashMap<String, PlayerSetting>();
 		dropHandler = new DropHandler(this);
@@ -66,6 +64,7 @@ public class Main extends JavaPlugin {
 		this.getServer().getPluginManager().registerEvents(new Listener(this), this);
 
 		utils = new Utils(this);
+
 		blockDropWrapper = new BlockDropWrapper();
 		updateChecker = new PluginUpdateChecker(this,"https://api.jeff-media.de/drop2inventory/drop2inventory-latest-version.txt",
 				"https://www.spigotmc.org/resources/1-9-1-16-drop2inventory.62214/","https://github.com/JEFF-Media-GbR/Spigot-Drop2Inventory/blob/master/CHANGELOG.md","https://paypal.me/mfnalex");
@@ -132,8 +131,6 @@ public class Main extends JavaPlugin {
 	public void createConfig() {
 		saveDefaultConfig();
 
-
-
 		if (getConfig().getInt("config-version", 0) < 4) {
 			getLogger().warning("========================================================");
 			getLogger().warning("You are using a config file that has been generated");
@@ -186,7 +183,7 @@ public class Main extends JavaPlugin {
 		getConfig().addDefault("collect-mob-drops", true);
 		getConfig().addDefault("collect-block-exp", true);
 		getConfig().addDefault("collect-mob-exp", true);
-		ArrayList<Material> disabledBlocks = new ArrayList<>();
+		disabledBlocks = new ArrayList<>();
 		ArrayList<String> disabledBlocksStrings = (ArrayList<String>) getConfig().getStringList("disabled-blocks");
 		for(String s : disabledBlocksStrings) {
 			Material m = Material.getMaterial(s);
