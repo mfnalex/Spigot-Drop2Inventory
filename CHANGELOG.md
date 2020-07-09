@@ -1,4 +1,7 @@
 # Changelog
+## 3.10.0-SNAPSHOT
+- Added Spanish translation
+
 ## 3.9.3
 - Fixed disabled-mobs list not working
 - Fixed NullPointerException when killing a mob 
