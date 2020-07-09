@@ -1,4 +1,8 @@
 # Changelog
+## 3.9.3
+- Fixed disabled-mobs list not working
+- Fixed NullPointerException when killing a mob 
+
 ## 3.9.2
 - This REALLY fixes the NullPointerException mentioned in 3.9.1
 

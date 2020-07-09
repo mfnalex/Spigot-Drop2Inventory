@@ -184,6 +184,7 @@ public class Main extends JavaPlugin {
 		getConfig().addDefault("collect-block-exp", true);
 		getConfig().addDefault("collect-mob-exp", true);
 		disabledBlocks = new ArrayList<>();
+		disabledMobs = new ArrayList<>();
 		ArrayList<String> disabledBlocksStrings = (ArrayList<String>) getConfig().getStringList("disabled-blocks");
 		for(String s : disabledBlocksStrings) {
 			Material m = Material.getMaterial(s);
@@ -192,6 +193,9 @@ public class Main extends JavaPlugin {
 			} else {
 				disabledBlocks.add(m);
 			}
+		}
+		for(String s : getConfig().getStringList("disabled-mobs")) {
+				disabledMobs.add(s.toLowerCase());
 		}
 	}
 	
