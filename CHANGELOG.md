@@ -1,4 +1,7 @@
 # Changelog
+## 3.9.5
+- Fixed prismarine dropping more than one block when using fortune enchantment
+
 ## 3.9.4
 - Fixed beds not being dropped when breaking the lower half
 - Added Spanish translation

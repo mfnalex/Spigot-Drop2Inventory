@@ -130,7 +130,8 @@ public class DropHandler {
 		case REDSTONE:
 		case CARROT:
 		case GLOWSTONE_DUST:
-		case PRISMARINE:
+		// TODO: Replace with prismarine shards / crystals?
+		//case PRISMARINE:
 		case MELON_SLICE:
 		case MELON_SEEDS:
 		case NETHER_WART:
