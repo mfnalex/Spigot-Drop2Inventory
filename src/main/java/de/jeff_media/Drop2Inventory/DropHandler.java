@@ -4,7 +4,9 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Random;
 
+import org.bukkit.Material;
 import org.bukkit.block.Block;
+import org.bukkit.block.data.type.Bed;
 import org.bukkit.enchantments.Enchantment;
 import org.bukkit.entity.Player;
 import org.bukkit.event.block.BlockBreakEvent;
@@ -25,6 +27,7 @@ public class DropHandler {
 		
 		Player player = event.getPlayer();
 		Block block = event.getBlock();
+
 		boolean hasSilkTouch = false;
 		//boolean hasFortune = false;
 		int fortuneLevel = 0;
@@ -61,6 +64,13 @@ public class DropHandler {
 			}
 		}
 
+		if(block.getBlockData() instanceof Bed) {
+			Bed bed = (Bed) block.getBlockData();
+			if(bed.getPart() == Bed.Part.FOOT) {
+				drops.add(getBed(block.getType()));
+			}
+		}
+
 		for (ItemStack item : drops) {
 			HashMap<Integer, ItemStack> leftOver = player.getInventory().addItem(item);
 			for (ItemStack leftoverItem : leftOver.values()) {
@@ -80,7 +90,11 @@ public class DropHandler {
 		//event.setCancelled(true);
 		//block.setType(Material.AIR);
 	}
-	
+
+	private ItemStack getBed(Material type) {
+		return new ItemStack(type);
+	}
+
 	ItemStack applyFortune(ItemStack itemStack, int fortuneLevel) {
 		int r = rand.nextInt(100);
 		switch(itemStack.getType()) {

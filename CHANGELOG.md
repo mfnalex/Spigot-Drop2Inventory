@@ -1,6 +1,9 @@
 # Changelog
-## 3.10.0-SNAPSHOT
+## 3.9.4
+- Fixed beds not being dropped when breaking the lower half
 - Added Spanish translation
+- Updated Turkish translation
+- Updated API to 1.16.1
 
 ## 3.9.3
 - Fixed disabled-mobs list not working
