@@ -125,11 +125,12 @@ message-when-breaking-block2: "&7Hint: Type &6/drop2inventory&7 or &6/drop2inv&7
 #message-when-breaking-block: "&7Drop2Inventory: Utiliza &6/drop2inventory&7 o &6/drop2inv&7 para habilitar la coleccion automatica de dropeos."
 #message-when-breaking-block2: "&7Drop2Inventory: Utiliza &6/drop2inventory&7 o &6/drop2inv&7 para deshabilitar la coleccion automatica de dropeos."
 
-##### Turkish - thanks to @successed for the translation
-#message-disabled: "&bDrop2Inventory: &cKAPANDI"
-#message-enabled: "&bDrop2Inventory: &aA
-#message-when-breaking-block: "&bDrop2Inventory: &6Keotomatik olarak gelmesini istiyorsan&4/Drop2Inventory"
-#message-when-breaking-block2: "&bDrop2Inventory: &6Keotomatik olarak gelmesini kapatmak i&4/Drop2Inventory"
+##### Turkish (If u found an error contact with Cazcez#0190 on discord! || Hata bulursanız discord üzerinden Cazcez#0190 ile iletişime geçiniz)
+#message-disabled: "&7Otomatik toplama &cdeaktifleştirildi&7."
+#message-enabled: "&7Otomatik toplama &aktifleştirildi&7."
+#message-when-breaking-block: "&7İpucu: Otomatik toplamayı aktifleştirmek için &6/drop2inventory&7 ya da &6/drop2inv&7 yazınız."
+#message-when-breaking-block2: "&7İpucu: Otomatik toplamayı deaktifleştirmek için &6/drop2inventory&7 ya da &6/drop2inv&7 yazınız."
+
 
 #########################
 #####     Done!     #####
