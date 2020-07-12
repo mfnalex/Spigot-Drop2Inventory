@@ -1,4 +1,9 @@
 # Changelog
+
+## 4.0.0
+- Changed detection of block drops. It should now always drop exactly what vanilla would have dropped.
+- Only compatible with Spigot 1.13 and later
+
 ## 3.9.5
 - Fixed prismarine dropping more than one block when using fortune enchantment
 

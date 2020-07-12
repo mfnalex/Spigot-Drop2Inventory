@@ -22,8 +22,8 @@ import org.bukkit.Material;
 
 public class Main extends JavaPlugin {
 
-	BlockDropWrapper blockDropWrapper;
-	DropHandler dropHandler;
+	//BlockDropWrapper blockDropWrapper;
+	//DropHandler dropHandler;
 	PluginUpdateChecker updateChecker;
 	Messages messages;
 	Utils utils;
@@ -52,7 +52,7 @@ public class Main extends JavaPlugin {
 		createConfig();
 
 		perPlayerSettings = new HashMap<String, PlayerSetting>();
-		dropHandler = new DropHandler(this);
+		//dropHandler = new DropHandler(this);
 		messages = new Messages(this);
 		CommandDrop2Inv commandDrop2Inv = new CommandDrop2Inv(this);
 		
@@ -65,7 +65,7 @@ public class Main extends JavaPlugin {
 
 		utils = new Utils(this);
 
-		blockDropWrapper = new BlockDropWrapper();
+		//blockDropWrapper = new BlockDropWrapper();
 		updateChecker = new PluginUpdateChecker(this,"https://api.jeff-media.de/drop2inventory/drop2inventory-latest-version.txt",
 				"https://www.spigotmc.org/resources/1-9-1-16-drop2inventory.62214/","https://github.com/JEFF-Media-GbR/Spigot-Drop2Inventory/blob/master/CHANGELOG.md","https://paypal.me/mfnalex");
 

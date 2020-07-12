@@ -14,7 +14,7 @@ import org.bukkit.inventory.ItemStack;
 
 public class DropHandler {
 	
-	Main plugin;
+	/*Main plugin;
 	Random rand = new Random();
 	
 	DropHandler(Main plugin) {
@@ -148,5 +148,5 @@ public class DropHandler {
 		
 		return itemStack;
 	}
-
+*/
 }
