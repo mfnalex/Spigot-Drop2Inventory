@@ -1,7 +1,8 @@
 # Changelog
 
-## 4.1.0-SNAPSHOT
-- Cacti, sugar cane, kelp etc. will drop the whole plant
+## 4.1.0
+- Shulkerboxes will now preserve their contents when broken
+- Cacti, sugar cane, kelp, chorus trees etc. will drop the whole plant
 
 ## 4.0.0
 - Changed detection of block drops. It should now always drop exactly what vanilla would have dropped.

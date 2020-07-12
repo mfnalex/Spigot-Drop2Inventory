@@ -1,6 +1,7 @@
 package de.jeff_media.Drop2Inventory;
 
 import org.bukkit.GameMode;
+import org.bukkit.Material;
 import org.bukkit.World;
 import org.bukkit.block.Block;
 import org.bukkit.entity.Item;
@@ -18,10 +19,12 @@ import org.bukkit.inventory.ItemStack;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Random;
 
 public class Listener implements org.bukkit.event.Listener {
 
     Main plugin;
+    Random random = new Random();
 
     Listener(Main plugin) {
         this.plugin = plugin;
@@ -156,6 +159,25 @@ public class Listener implements org.bukkit.event.Listener {
             ItemStack plantItems = new ItemStack(PlantUtils.getPlantDrop(event.getBlock().getType()), extraAmount);
             Utils.addOrDrop(plantItems,event.getPlayer());
             PlantUtils.destroyPlant(plant);
+        } else if(PlantUtils.isChorusTree(event.getBlock())) {
+            // Note:
+            // Chorus flower only drop themselves when broken directly,
+            // but not when they drop because the chorus plant is broken
+            ArrayList<Block> chorusTree = new ArrayList<Block>();
+            event.setDropItems(false);
+             PlantUtils.getChorusTree(event.getBlock(),chorusTree);
+            int extraAmountChorusPlant = PlantUtils.getAmountInList(chorusTree,Material.CHORUS_PLANT);
+            int extraAmountChorusFruit = 0;
+
+            for(int i = 0; i < extraAmountChorusPlant; i++) {
+                if(random.nextInt(100)>=50) {
+                    extraAmountChorusFruit++;
+                }
+            }
+
+            ItemStack flowerDrops = new ItemStack(Material.CHORUS_FRUIT, extraAmountChorusFruit);
+            Utils.addOrDrop(flowerDrops,event.getPlayer());
+            PlantUtils.destroyPlant(chorusTree);
         }
 
         //plugin.dropHandler.drop2inventory(event);
@@ -163,15 +185,9 @@ public class Listener implements org.bukkit.event.Listener {
 
     @EventHandler
     public void onItemDrop(BlockDropItemEvent event) {
-        System.out.println("DROPPING "+event.getItems());
         List<Item> items = event.getItems();
         Player player = event.getPlayer();
         World world = event.getPlayer().getLocation().getWorld();
-
-        // TODO: Drop shulker box to inv but keep contents
-		/*if (event.getBlock().getType().name().toLowerCase().endsWith("shulker_box")) {
-			return;
-		}*/
 
         if (event.isCancelled()) {
             return;
