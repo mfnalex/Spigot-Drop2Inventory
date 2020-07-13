@@ -25,6 +25,7 @@ public class Listener implements org.bukkit.event.Listener {
 
     Main plugin;
     Random random = new Random();
+    PlantUtils plantUtils = new PlantUtils();
 
     Listener(Main plugin) {
         this.plugin = plugin;
@@ -152,7 +153,7 @@ public class Listener implements org.bukkit.event.Listener {
             }
         }
 
-        if(PlantUtils.isPlant(event.getBlock())) {
+        if(plantUtils.isPlant(event.getBlock())) {
             event.setDropItems(false);
             ArrayList<Block> plant = PlantUtils.getPlant(event.getBlock());
             int extraAmount = plant.size();

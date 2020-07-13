@@ -5,15 +5,18 @@ import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
 
 import java.util.ArrayList;
+import java.util.LinkedList;
 
 public class PlantUtils {
 
-    final static Material[] plants = {
-            Material.CACTUS,
-            Material.SUGAR_CANE,
-            Material.KELP_PLANT,
-            Material.BAMBOO
+    final static String[] plantNames = {
+            "CACTUS",
+            "SUGAR_CANE",
+            "KELP_PLANT",
+            "BAMBOO"
     };
+
+    final LinkedList<Material> plants;
 
     final static BlockFace[] chorusBlockFaces = {
             BlockFace.UP,
@@ -23,19 +26,28 @@ public class PlantUtils {
             BlockFace.WEST,
     };
 
+    PlantUtils() {
+        plants = new LinkedList<Material>();
+        for(String s : plantNames) {
+            if(Material.getMaterial(s) != null) {
+                plants.add(Material.getMaterial(s));
+            }
+        }
+    }
+
     static boolean isChorusTree(Block block) {
-        if(block.getType() == Material.CHORUS_PLANT) return true;
+        if(block.getType().name().equals("CHORUS_PLANT")) return true;
         return false;
     }
 
     static boolean isPartOfChorusTree(Block block) {
         Material mat = block.getType();
-        if(mat == Material.CHORUS_PLANT
-                || mat == Material.CHORUS_FLOWER) return true;
+        if(mat.name().equals("CHORUS_PLANT")
+                || mat.name().equals("CHORUS_FLOWER")) return true;
         return false;
     }
 
-    static boolean isPlant(Block block) {
+    boolean isPlant(Block block) {
 
         Material mat = block.getType();
         for(Material p : plants) {
@@ -48,8 +60,8 @@ public class PlantUtils {
 
     static boolean matchesPlant(Material origin, Material current) {
         if(origin==current) return true;
-        if(origin==Material.KELP_PLANT
-                && current==Material.KELP) return true;
+        if(origin.name().equals("KELP_PLANT")
+                && current.name().equals("KELP")) return true;
         return false;
     }
 
@@ -89,9 +101,9 @@ public class PlantUtils {
     }
 
     static Material getPlantDrop(Material mat) {
-        switch(mat) {
-            case KELP_PLANT:
-                return Material.KELP;
+        switch(mat.name()) {
+            case "KELP_PLANT":
+                return Material.getMaterial("KELP");
             default:
                 return mat;
         }

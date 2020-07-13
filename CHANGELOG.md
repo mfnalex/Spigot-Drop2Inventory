@@ -1,5 +1,8 @@
 # Changelog
 
+## 4.1.1
+- Fixed exception in MC < 1.14
+
 ## 4.1.0
 - Shulkerboxes will now preserve their contents when broken
 - Cacti, sugar cane, kelp, chorus trees etc. will drop the whole plant
