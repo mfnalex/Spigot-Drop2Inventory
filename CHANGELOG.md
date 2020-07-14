@@ -1,5 +1,11 @@
 # Changelog
 
+## 4.2.0
+- Added mending when auto-collecting XP
+  - Behaves exactly like vanilla: in 1.16+ it only tries to repair damaged items, in 1.15 and below it picks a random equipped item to be repaired
+- Fixed items from a broken furnace being dropped on the ground
+- Fixed overflow items not dropping when killing another player
+
 ## 4.1.1
 - Fixed exception in MC < 1.14
 

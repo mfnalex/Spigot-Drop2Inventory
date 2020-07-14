@@ -1,11 +1,14 @@
 package de.jeff_media.Drop2Inventory;
 
+import org.apache.commons.lang.math.NumberUtils;
 import org.bukkit.Material;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 
 import java.util.HashMap;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 public class Utils {
 
@@ -40,6 +43,7 @@ public class Utils {
 		ItemStack[] items = new ItemStack[1];
 		items[0] = item;
 		addOrDrop(items,player);
+
 	}
 
 	static void addOrDrop(ItemStack[] items, Player player) {
@@ -49,5 +53,17 @@ public class Utils {
 				player.getWorld().dropItem(player.getLocation(), leftover);
 			}
 		}
+	}
+
+	// Returns 16 for 1.16, etc.
+	static int getMcVersion(String bukkitVersionString) {
+		Pattern p = Pattern.compile("^1\\.(\\d*)\\.");
+		Matcher m = p.matcher((bukkitVersionString));
+		int version = -1;
+		while(m.find()) {
+			if(NumberUtils.isNumber(m.group(1)))
+			version = Integer.parseInt(m.group(1));
+		}
+		return version;
 	}
 }

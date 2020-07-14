@@ -39,6 +39,8 @@ public class Main extends JavaPlugin {
 	boolean mobsIsWhitelist = false;
 
 	int currentConfigVersion = 8;
+
+	final int mcVersion = Utils.getMcVersion(Bukkit.getBukkitVersion());
 	boolean usingMatchingConfig = true;
 	boolean enabledByDefault = false;
 	boolean showMessageWhenBreakingBlock = true;
