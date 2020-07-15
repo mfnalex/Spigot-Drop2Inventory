@@ -119,7 +119,6 @@ public class Listener implements org.bukkit.event.Listener {
         if (event.isCancelled()) {
             return;
         }
-        System.out.println(String.format("BlockBreakEvent: %s",event.getExpToDrop()));
         Player player = event.getPlayer();
 
         if (!player.hasPermission("drop2inventory.use")) {

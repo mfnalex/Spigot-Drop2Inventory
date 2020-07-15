@@ -133,29 +133,14 @@ public class Main extends JavaPlugin {
 	public void createConfig() {
 		saveDefaultConfig();
 
-		if (getConfig().getInt("config-version", 0) < 4) {
-			getLogger().warning("========================================================");
-			getLogger().warning("You are using a config file that has been generated");
-			getLogger().warning("prior to Drop2Inventory version 3.3.");
-			getLogger().warning("To allow everyone to use the new features, your config");
-			getLogger().warning("has been renamed to config.old.yml and a new one has");
-			getLogger().warning("been generated. Please examine the new config file to");
-			getLogger().warning("see the new possibilities and adjust your settings.");
-			getLogger().warning("========================================================");
+		if (getConfig().getInt("config-version", 0) != currentConfigVersion) {
+			showOldConfigWarning();
 
-			File configFile = new File(getDataFolder().getAbsolutePath() + File.separator + "config.yml");
-			File oldConfigFile = new File(getDataFolder().getAbsolutePath() + File.separator + "config.old.yml");
-			if (oldConfigFile.getAbsoluteFile().exists()) {
-				oldConfigFile.getAbsoluteFile().delete();
-			}
-			configFile.getAbsoluteFile().renameTo(oldConfigFile.getAbsoluteFile());
-			saveDefaultConfig();
-			try {
-				getConfig().load(configFile.getAbsoluteFile());
-			} catch (IOException | org.bukkit.configuration.InvalidConfigurationException e) {
-				getLogger().warning("Could not load freshly generated config file!");
-				e.printStackTrace();
-			}
+			ConfigUpdater configUpdater = new ConfigUpdater(this);
+			configUpdater.updateConfig();
+			configUpdater = null;
+			usingMatchingConfig = true;
+			reloadConfig();
 		}
 		if (getConfig().getInt("config-version", 0) != currentConfigVersion) {
 			getLogger().warning("========================================================");
@@ -199,6 +184,14 @@ public class Main extends JavaPlugin {
 		for(String s : getConfig().getStringList("disabled-mobs")) {
 				disabledMobs.add(s.toLowerCase());
 		}
+	}
+
+	private  void showOldConfigWarning() {
+		getLogger().warning("=================================================");
+		getLogger().warning("You were using an old config file. Drop2Inventory");
+		getLogger().warning("has updated the file to the newest version.");
+		getLogger().warning("Your changes have been kept.");
+		getLogger().warning("=================================================");
 	}
 	
 	public PlayerSetting getPlayerSetting(Player p) {

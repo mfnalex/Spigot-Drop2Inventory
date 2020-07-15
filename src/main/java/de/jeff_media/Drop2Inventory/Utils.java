@@ -10,6 +10,8 @@ import java.util.HashMap;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import java.io.File;
+
 public class Utils {
 
 	Main plugin;
@@ -65,5 +67,11 @@ public class Utils {
 			version = Integer.parseInt(m.group(1));
 		}
 		return version;
+	}
+
+	static void renameFileInPluginDir(Main plugin,String oldName, String newName) {
+		File oldFile = new File(plugin.getDataFolder().getAbsolutePath() + File.separator + oldName);
+		File newFile = new File(plugin.getDataFolder().getAbsolutePath() + File.separator + newName);
+		oldFile.getAbsoluteFile().renameTo(newFile.getAbsoluteFile());
 	}
 }
