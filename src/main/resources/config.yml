@@ -6,6 +6,10 @@
 # Please note that players will need the permission drop2inventory.use to use this plugin
 #
 
+# When set to true, Drop2Inventory is always enabled and cannot be disabled by players
+# I suggest you set it to true if you use Drop2Inventory to reduce server lag
+always-enabled: false
+
 # Whether automatic drop collection is enabled by default for new players
 # If set to false, players will have to enter /drop2inv once to enable automatic drop collection
 enabled-by-default: false
@@ -136,5 +140,8 @@ message-when-breaking-block2: "&7Hint: Type &6/drop2inventory&7 or &6/drop2inv&7
 #####     Done!     #####
 #########################
 
+# you do not want this
+debug: false
+
 # please do not change the following line manually!
-config-version: 8
+config-version: 9

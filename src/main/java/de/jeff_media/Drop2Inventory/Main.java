@@ -38,7 +38,7 @@ public class Main extends JavaPlugin {
 
 	boolean mobsIsWhitelist = false;
 
-	int currentConfigVersion = 8;
+	int currentConfigVersion = 9;
 
 	final int mcVersion = Utils.getMcVersion(Bukkit.getBukkitVersion());
 	boolean usingMatchingConfig = true;
@@ -48,6 +48,8 @@ public class Main extends JavaPlugin {
 	boolean showMessageAgainAfterLogout=true;
 
 	private static final int updateCheckInterval = 86400;
+
+	boolean debug = false;
 
 	public void onEnable() {
 
@@ -77,6 +79,10 @@ public class Main extends JavaPlugin {
 			updateChecker.check((long) updateCheckInterval);
 		} else if (getConfig().getString("check-for-updates", "true").equalsIgnoreCase("on-startup")) {
 			updateChecker.check();
+		}
+
+		if(getConfig().getBoolean("debug",false)) {
+			debug=true;
 		}
 		
 		this.getCommand("drop2inventory").setExecutor(commandDrop2Inv);
@@ -162,6 +168,7 @@ public class Main extends JavaPlugin {
 		
 		// Default settings
 		getConfig().addDefault("enabled-by-default", false);
+		getConfig().addDefault("always-enabled",false);
 		getConfig().addDefault("check-for-updates", "true");
 		getConfig().addDefault("show-message-when-breaking-block", true);
 		getConfig().addDefault("show-message-when-breaking-block-and-collection-is-enabled", false);
@@ -263,4 +270,7 @@ public class Main extends JavaPlugin {
 		}
 }
 
+	void debug(String t) {
+		if(debug) getLogger().warning("[DEBUG] "+t);
+	}
 }

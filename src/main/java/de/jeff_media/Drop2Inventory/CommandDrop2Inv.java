@@ -1,5 +1,6 @@
 package de.jeff_media.Drop2Inventory;
 
+import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
@@ -16,11 +17,15 @@ public class CommandDrop2Inv implements CommandExecutor {
 	@Override
 	public boolean onCommand(CommandSender sender, Command command, String alias, String[] args) {
 		
-		
-		
 		if(!command.getName().equalsIgnoreCase("drop2inventory")) {
 			return false;
 		}
+
+		if(plugin.getConfig().getBoolean("always-enabled")) {
+			sender.sendMessage(ChatColor.RED+"Drop2Inventory cannot be disabled.");
+			return true;
+		}
+
 		if(!(sender instanceof Player)) {
 			sender.sendMessage("You must be a player to run this command.");
 			return true;

@@ -1,5 +1,8 @@
 # Changelog
 
+## 4.3.0
+- Added option to force Drop2Inventory being enabled for every player (default: false). I suggest to enable this if you use Drop2Inventory for reducing server lag.
+
 ## 4.2.1
 - Fixed debug message being displayed on every BlockBreakEvent
 

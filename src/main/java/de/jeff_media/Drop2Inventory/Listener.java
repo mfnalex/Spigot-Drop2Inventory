@@ -6,6 +6,7 @@ import org.bukkit.World;
 import org.bukkit.block.Block;
 import org.bukkit.block.Furnace;
 import org.bukkit.entity.Item;
+import org.bukkit.entity.ItemFrame;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -14,6 +15,7 @@ import org.bukkit.event.block.BlockBreakEvent;
 import org.bukkit.event.block.BlockDropItemEvent;
 import org.bukkit.event.block.BlockExpEvent;
 import org.bukkit.event.entity.EntityDeathEvent;
+import org.bukkit.event.hanging.HangingBreakByEntityEvent;
 import org.bukkit.event.inventory.FurnaceExtractEvent;
 import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.event.player.PlayerQuitEvent;
@@ -104,6 +106,28 @@ public class Listener implements org.bukkit.event.Listener {
         event.getDrops().clear();
     }
 
+    @EventHandler
+    public void onHangingBreak(HangingBreakByEntityEvent event) {
+        if(!(event.getRemover() instanceof Player)) {
+            return;
+        }
+        Player p = (Player) event.getRemover();
+        if(event.isCancelled()) return;
+        if(!isDrop2InvEnabled(p,plugin.getPlayerSetting(p))) return;
+        plugin.debug("Player passively removed a Hanging");
+        if(event.getEntity() instanceof ItemFrame) {
+            plugin.debug("It was an Item frame.");
+            ItemFrame frame = (ItemFrame) event.getEntity();
+            ItemStack content = frame.getItem();
+            if(content != null) {
+                plugin.debug("The frame contained "+content.toString());
+            } else {
+                plugin.debug("The frame was empty.");
+            }
+        }
+        event.setCancelled(true);
+    }
+
 
     @EventHandler(priority = EventPriority.HIGHEST)
     public void onBlockBreak(BlockBreakEvent event) {
@@ -121,16 +145,7 @@ public class Listener implements org.bukkit.event.Listener {
         }
         Player player = event.getPlayer();
 
-        if (!player.hasPermission("drop2inventory.use")) {
-            return;
-        }
 
-        // Fix for /reload
-        plugin.registerPlayer(event.getPlayer());
-
-        if (player.getGameMode() == GameMode.CREATIVE) {
-            return;
-        }
 
         // disabled block?
         if (!plugin.utils.isBlockEnabled(event.getBlock().getType())) {
@@ -146,29 +161,12 @@ public class Listener implements org.bukkit.event.Listener {
             event.setExpToDrop(0);
         }
 
-        if (!plugin.getConfig().getBoolean("collect-block-drops")) {
-            return;
-        }
+
 
 
         PlayerSetting setting = plugin.perPlayerSettings.get(player.getUniqueId().toString());
 
-        if (!plugin.enabled(player)) {
-            if (!setting.hasSeenMessage) {
-                setting.hasSeenMessage = true;
-                if (plugin.getConfig().getBoolean("show-message-when-breaking-block")) {
-                    player.sendMessage(plugin.messages.MSG_COMMANDMESSAGE);
-                }
-            }
-            return;
-        } else {
-            if (!setting.hasSeenMessage) {
-                setting.hasSeenMessage = true;
-                if (plugin.getConfig().getBoolean("show-message-when-breaking-block-and-collection-is-enabled")) {
-                    player.sendMessage(plugin.messages.MSG_COMMANDMESSAGE2);
-                }
-            }
-        }
+        if (!isDrop2InvEnabled(player, setting)) return;
 
         if(plantUtils.isPlant(event.getBlock())) {
             event.setDropItems(false);
@@ -219,6 +217,45 @@ public class Listener implements org.bukkit.event.Listener {
 
 
         //plugin.dropHandler.drop2inventory(event);
+    }
+
+    private boolean isDrop2InvEnabled(Player player, PlayerSetting setting) {
+
+        if(plugin.getConfig().getBoolean("always-enabled")) return true;
+
+        if (!player.hasPermission("drop2inventory.use")) {
+            return false;
+        }
+
+        // Fix for /reload
+        plugin.registerPlayer(player);
+
+        if (player.getGameMode() == GameMode.CREATIVE) {
+            return false;
+        }
+
+
+
+        if (!plugin.getConfig().getBoolean("collect-block-drops")) {
+            return false;
+        }
+        if (!plugin.enabled(player)) {
+            if (!setting.hasSeenMessage) {
+                setting.hasSeenMessage = true;
+                if (plugin.getConfig().getBoolean("show-message-when-breaking-block")) {
+                    player.sendMessage(plugin.messages.MSG_COMMANDMESSAGE);
+                }
+            }
+            return false;
+        } else {
+            if (!setting.hasSeenMessage) {
+                setting.hasSeenMessage = true;
+                if (plugin.getConfig().getBoolean("show-message-when-breaking-block-and-collection-is-enabled")) {
+                    player.sendMessage(plugin.messages.MSG_COMMANDMESSAGE2);
+                }
+            }
+        }
+        return true;
     }
 
     @EventHandler
