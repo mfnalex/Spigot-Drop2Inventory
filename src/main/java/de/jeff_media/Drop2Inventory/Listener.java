@@ -5,10 +5,7 @@ import org.bukkit.Material;
 import org.bukkit.World;
 import org.bukkit.block.Block;
 import org.bukkit.block.Furnace;
-import org.bukkit.entity.Item;
-import org.bukkit.entity.ItemFrame;
-import org.bukkit.entity.LivingEntity;
-import org.bukkit.entity.Player;
+import org.bukkit.entity.*;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.block.BlockBreakEvent;
@@ -124,8 +121,14 @@ public class Listener implements org.bukkit.event.Listener {
             } else {
                 plugin.debug("The frame was empty.");
             }
+            event.setCancelled(true);
         }
-        event.setCancelled(true);
+
+        if(event.getEntity() instanceof Painting) {
+            Utils.addOrDrop(new ItemStack(Material.PAINTING),p);
+            event.getEntity().remove();
+        }
+
     }
 
 
