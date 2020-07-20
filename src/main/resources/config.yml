@@ -135,6 +135,11 @@ message-when-breaking-block2: "&7Hint: Type &6/drop2inventory&7 or &6/drop2inv&7
 #message-when-breaking-block: "&7İpucu: Otomatik toplamayı aktifleştirmek için &6/drop2inventory&7 ya da &6/drop2inv&7 yazınız."
 #message-when-breaking-block2: "&7İpucu: Otomatik toplamayı deaktifleştirmek için &6/drop2inventory&7 ya da &6/drop2inv&7 yazınız."
 
+##### Chinese Simplified
+#message-disabled: "&7自动掉落物收集已 &c关闭&7."
+#message-enabled: "&7自动掉落物收集已 &a开启&7."
+#message-when-breaking-block: "&7提示: 输入 &6/drop2inventory&7 或 &6/drop2inv&7 以启用自动掉落物收集."
+#message-when-breaking-block2: "&7提示: 输入 &6/drop2inventory&7 或 &6/drop2inv&7 以关闭自动掉落物收集."
 
 #########################
 #####     Done!     #####
