@@ -108,7 +108,7 @@ public class Listener implements org.bukkit.event.Listener {
         event.getDrops().clear();
     }
 
-    @EventHandler(priority = EventPriority.MONITOR)
+    @EventHandler(priority = EventPriority.MONITOR) // Monitor because some plugins like BannerBoard are too stupid to listen on LOWEST when they only want to cancel events regarding their own stuff...
     public void onItemFrameRemoveItem(EntityDamageByEntityEvent event) {
 
         if(!(event.getDamager() instanceof Player)) return;
@@ -133,7 +133,7 @@ public class Listener implements org.bukkit.event.Listener {
         }
     }
 
-    @EventHandler(priority = EventPriority.MONITOR)
+    @EventHandler(priority = EventPriority.MONITOR) // Monitor because some plugins like BannerBoard are too stupid to listen on LOWEST when they only want to cancel events regarding their own stuff...
     public void onHangingBreak(HangingBreakByEntityEvent event) {
         if(!(event.getRemover() instanceof Player)) {
             return;
