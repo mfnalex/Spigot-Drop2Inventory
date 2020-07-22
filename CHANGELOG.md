@@ -1,5 +1,11 @@
 # Changelog
 
+## 4.3.3
+- Fixed compatibility with BannerBoard
+
+## 4.3.2
+- Item frames and their contents now get dropped directly into the inventory
+
 ## 4.3.1
 - Fixed paintings not being destroyed when clicking on them
 

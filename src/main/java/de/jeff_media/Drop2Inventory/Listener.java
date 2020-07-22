@@ -6,14 +6,19 @@ import org.bukkit.World;
 import org.bukkit.block.Block;
 import org.bukkit.block.Furnace;
 import org.bukkit.entity.*;
+import org.bukkit.event.Event;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
+import org.bukkit.event.block.Action;
 import org.bukkit.event.block.BlockBreakEvent;
 import org.bukkit.event.block.BlockDropItemEvent;
 import org.bukkit.event.block.BlockExpEvent;
+import org.bukkit.event.entity.EntityDamageByEntityEvent;
 import org.bukkit.event.entity.EntityDeathEvent;
 import org.bukkit.event.hanging.HangingBreakByEntityEvent;
 import org.bukkit.event.inventory.FurnaceExtractEvent;
+import org.bukkit.event.player.PlayerInteractEntityEvent;
+import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.event.player.PlayerQuitEvent;
 import org.bukkit.inventory.FurnaceInventory;
@@ -103,7 +108,32 @@ public class Listener implements org.bukkit.event.Listener {
         event.getDrops().clear();
     }
 
-    @EventHandler
+    @EventHandler(priority = EventPriority.MONITOR)
+    public void onItemFrameRemoveItem(EntityDamageByEntityEvent event) {
+
+        if(!(event.getDamager() instanceof Player)) return;
+        Player p = (Player) event.getDamager();
+        if(event.isCancelled()) {
+            plugin.debug("EntityDamageByEntityEvent is cancelled");
+            return;
+        }
+        plugin.debug("EntityDamageByEntityEvent is NOT cancelled");
+        if(!isDrop2InvEnabled(p,plugin.getPlayerSetting(p))) return;
+        if(event.getEntity() instanceof ItemFrame) {
+            ItemFrame frame = (ItemFrame) event.getEntity();
+            ItemStack content = frame.getItem();
+            if(content != null && content.getType()!=Material.AIR) {
+                plugin.debug("The frame contained "+content.toString());
+                Utils.addOrDrop(content,p);
+            } else {
+                return;
+            }
+            frame.setItem(null);
+            event.setCancelled(true);
+        }
+    }
+
+    @EventHandler(priority = EventPriority.MONITOR)
     public void onHangingBreak(HangingBreakByEntityEvent event) {
         if(!(event.getRemover() instanceof Player)) {
             return;
@@ -111,16 +141,17 @@ public class Listener implements org.bukkit.event.Listener {
         Player p = (Player) event.getRemover();
         if(event.isCancelled()) return;
         if(!isDrop2InvEnabled(p,plugin.getPlayerSetting(p))) return;
-        plugin.debug("Player passively removed a Hanging");
+        plugin.debug("Player removed a Hanging");
         if(event.getEntity() instanceof ItemFrame) {
             plugin.debug("It was an Item frame.");
             ItemFrame frame = (ItemFrame) event.getEntity();
             ItemStack content = frame.getItem();
             if(content != null) {
                 plugin.debug("The frame contained "+content.toString());
-            } else {
-                plugin.debug("The frame was empty.");
+                Utils.addOrDrop(content,p);
             }
+            Utils.addOrDrop(new ItemStack(Material.ITEM_FRAME),p);
+            event.getEntity().remove();
             event.setCancelled(true);
         }
 
