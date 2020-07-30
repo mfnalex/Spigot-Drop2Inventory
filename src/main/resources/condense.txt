@@ -1,0 +1,8 @@
+diamond,9,diamond_block
+coal,9,coal_block
+iron_ingot,9,iron_block
+gold_ingot,9,gold_block
+lapis_lazuli,9,lapis_block
+netherite_ingot,9,netherite_block
+redstone,9,redstone_block
+wheat,9,hay_block

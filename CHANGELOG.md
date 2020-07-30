@@ -1,5 +1,9 @@
 # Changelog
 
+## 4.4.0
+- Added option to auto-condense mined blocks (9 diamonds -> diamond block, etc), disabled by default
+  - See config option "auto-condense"
+
 ## 4.3.3
 - Fixed compatibility with BannerBoard
 

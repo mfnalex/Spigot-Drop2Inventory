@@ -22,11 +22,14 @@ import org.bukkit.Material;
 
 public class Main extends JavaPlugin {
 
+	int currentConfigVersion = 10;
+
 	//BlockDropWrapper blockDropWrapper;
 	//DropHandler dropHandler;
 	PluginUpdateChecker updateChecker;
 	Messages messages;
 	Utils utils;
+	IngotCondenser ingotCondenser;
 
 	HashMap<String, PlayerSetting> perPlayerSettings;
 
@@ -37,8 +40,9 @@ public class Main extends JavaPlugin {
 	ArrayList<String> disabledMobs;
 
 	boolean mobsIsWhitelist = false;
+	boolean autoCondense = false;
 
-	int currentConfigVersion = 9;
+
 
 	final int mcVersion = Utils.getMcVersion(Bukkit.getBukkitVersion());
 	boolean usingMatchingConfig = true;
@@ -58,12 +62,14 @@ public class Main extends JavaPlugin {
 		perPlayerSettings = new HashMap<String, PlayerSetting>();
 		//dropHandler = new DropHandler(this);
 		messages = new Messages(this);
+		ingotCondenser = new IngotCondenser(this);
 		CommandDrop2Inv commandDrop2Inv = new CommandDrop2Inv(this);
 		
 		enabledByDefault = getConfig().getBoolean("enabled-by-default");
 		showMessageWhenBreakingBlock = getConfig().getBoolean("show-message-when-breaking-block");
 		showMessageWhenBreakingBlockAndCollectionIsDisabled = getConfig().getBoolean("show-message-when-breaking-block-and-collection-is-disabled");
 		showMessageAgainAfterLogout = getConfig().getBoolean("show-message-again-after-logout");
+		autoCondense = getConfig().getBoolean("auto-condense");
 
 		this.getServer().getPluginManager().registerEvents(new Listener(this), this);
 
@@ -177,6 +183,7 @@ public class Main extends JavaPlugin {
 		getConfig().addDefault("collect-mob-drops", true);
 		getConfig().addDefault("collect-block-exp", true);
 		getConfig().addDefault("collect-mob-exp", true);
+		getConfig().addDefault("auto-condense",false);
 		disabledBlocks = new ArrayList<>();
 		disabledMobs = new ArrayList<>();
 		ArrayList<String> disabledBlocksStrings = (ArrayList<String>) getConfig().getStringList("disabled-blocks");

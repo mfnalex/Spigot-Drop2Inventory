@@ -26,6 +26,10 @@ collect-mob-drops: true
 # when set to true, mob/entity experience orbs will be automatically collected if the plugin is enabled
 collect-mob-exp: true
 
+# when set to true, items will automaticall converted to blocks when mining them,
+# e.g. 9 diamonds -> 1 diamond_block etc
+auto-condense: false
+
 # when set to true, players with automatic drop collection DISABLED will be
 # shown a message on how to enable Drop2Inventory
 # when they break a block for the first time.
@@ -149,4 +153,4 @@ message-when-breaking-block2: "&7Hint: Type &6/drop2inventory&7 or &6/drop2inv&7
 debug: false
 
 # please do not change the following line manually!
-config-version: 9
+config-version: 10

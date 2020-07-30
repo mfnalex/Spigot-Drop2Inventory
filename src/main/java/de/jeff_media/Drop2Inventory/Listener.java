@@ -349,7 +349,11 @@ public class Listener implements org.bukkit.event.Listener {
         }*/
         for(Item item : items) {
             Utils.addOrDrop(item.getItemStack(),event.getPlayer());
+            if(plugin.autoCondense) {
+                plugin.ingotCondenser.condense(event.getPlayer().getInventory(), item.getItemStack().getType());
+            }
         }
+
 
 
         event.setCancelled(true);

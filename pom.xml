@@ -6,7 +6,7 @@
 
     <groupId>de.jeff_media</groupId>
     <artifactId>Drop2Inventory</artifactId>
-    <version>4.3.3</version>
+    <version>4.4.0</version>
 
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
@@ -115,6 +115,11 @@
             <artifactId>PluginUpdateChecker</artifactId>
             <version>1.3.2</version> <!-- Check latest version first -->
             <scope>compile</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.jetbrains</groupId>
+            <artifactId>annotations</artifactId>
+            <version>19.0.0</version>
         </dependency>
     </dependencies>
 
