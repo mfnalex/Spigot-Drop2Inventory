@@ -41,18 +41,25 @@ public class Utils {
 		return false;
 	}
 
-	static void addOrDrop(ItemStack item, Player player) {
+	void addOrDrop(ItemStack item, Player player) {
 		ItemStack[] items = new ItemStack[1];
 		items[0] = item;
 		addOrDrop(items,player);
-
+		if(plugin.autoCondense) {
+			plugin.debug("Auto condensing "+item.getType().name());
+			plugin.ingotCondenser.condense(player.getInventory(), item.getType());
+		}
 	}
 
-	static void addOrDrop(ItemStack[] items, Player player) {
+	void addOrDrop(ItemStack[] items, Player player) {
 		for(ItemStack item : items) {
 			HashMap<Integer, ItemStack> leftovers = player.getInventory().addItem(item);
 			for (ItemStack leftover : leftovers.values()) {
 				player.getWorld().dropItem(player.getLocation(), leftover);
+			}
+			if(plugin.autoCondense) {
+				plugin.debug("Auto condensing "+item.getType().name());
+				plugin.ingotCondenser.condense(player.getInventory(), item.getType());
 			}
 		}
 	}

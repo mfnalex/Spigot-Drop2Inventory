@@ -1,5 +1,9 @@
 # Changelog
 
+## 4.4.1
+- Auto-Condense now also works for gold/iron nuggets, bone meal and slime balls. It also works when killing mobs now.
+- Fixed possible NullPointerException when Auto-Condense is enabled
+
 ## 4.4.0
 - Added option to auto-condense mined blocks (9 diamonds -> diamond block, etc), disabled by default
   - See config option "auto-condense"

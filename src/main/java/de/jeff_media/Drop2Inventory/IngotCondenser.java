@@ -1,5 +1,6 @@
 package de.jeff_media.Drop2Inventory;
 
+import jdk.jfr.internal.LogLevel;
 import org.bukkit.Material;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
@@ -12,6 +13,7 @@ import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
+import java.util.Objects;
 
 public class IngotCondenser {
 
@@ -25,6 +27,12 @@ public class IngotCondenser {
         } catch (IOException e) {
             main.getLogger().warning("Could not read condensation map from file");
         }
+
+
+        for(CondensationMap map : condensationMap.values()) {
+            main.debug(String.format("%d x %s = %s",map.number,map.item.name(),map.block.name()));
+        }
+
     }
 
     void initFromFile() throws IOException {
@@ -37,11 +45,11 @@ public class IngotCondenser {
             Material block = Material.getMaterial(parts[2].toUpperCase());
             int number = Integer.valueOf(parts[1]);
             if(item==null) {
-                main.getLogger().info("Skipping unknown material "+parts[0]);
+                //main.getLogger().info("Skipping unknown material "+parts[0]);
                 continue;
             }
             if(block==null) {
-                main.getLogger().info("Skipping unknown material "+parts[2]);
+                //main.getLogger().info("Skipping unknown material "+parts[2]);
                 continue;
             }
             condensationMap.put(item,new CondensationMap(item,number,block));
@@ -52,11 +60,19 @@ public class IngotCondenser {
 
             CondensationMap map = condensationMap.get(mat);
 
+            if(map==null) return;
+
+            main.debug("Trying to condense "+mat.name());
+
             int amount = 0;
             for(ItemStack is : inv.all(map.item).values()) {
                 amount += is.getAmount();
             }
-            if(amount < map.number) return;
+            main.debug("  Found "+amount+" times");
+            if(amount < map.number) {
+                main.debug("  Returning! Thats not enough");
+                return;
+            }
             inv.remove(map.item);
             int blocks = amount / map.number;
             int items = amount % map.number;

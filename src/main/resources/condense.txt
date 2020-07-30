@@ -1,3 +1,5 @@
+gold_nugget,9,gold_ingot
+iron_nugget,9,iron_ingot
 diamond,9,diamond_block
 coal,9,coal_block
 iron_ingot,9,iron_block
@@ -6,3 +8,5 @@ lapis_lazuli,9,lapis_block
 netherite_ingot,9,netherite_block
 redstone,9,redstone_block
 wheat,9,hay_block
+bone_meal,9,bone_block
+slime_ball,9,slime_block

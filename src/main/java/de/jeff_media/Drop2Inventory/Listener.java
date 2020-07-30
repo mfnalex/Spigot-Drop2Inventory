@@ -56,18 +56,22 @@ public class Listener implements org.bukkit.event.Listener {
 
     @EventHandler(priority = EventPriority.HIGHEST)
     public void onEntityDeath(EntityDeathEvent event) {
+        plugin.debug("EntityDeathEvent");
         LivingEntity entity = event.getEntity();
         if (entity.getKiller() == null) {
+            plugin.debug("Return: entity.getKiller = null");
             return;
         }
 
         if(!(entity.getKiller() instanceof Player)) {
+            plugin.debug("Return: entity.getKiller ! instanceof player");
             return;
         }
 
         Player p = (Player) entity.getKiller();
 
         if (!entity.getKiller().hasPermission("drop2inventory.use")) {
+            plugin.debug("Return: entity.getKiller ! permission drop2inventory.use");
             return;
         }
 
@@ -75,14 +79,17 @@ public class Listener implements org.bukkit.event.Listener {
         plugin.registerPlayer(entity.getKiller());
 
         if (!plugin.enabled(entity.getKiller())) {
+            plugin.debug("entity.getKiller ! drop2Inv enabled");
             return;
         }
 
-        if (entity.getKiller().getGameMode() == GameMode.CREATIVE) {
-            return;
-        }
+        // Mobs drop stuff in Creative mode
+        //if (entity.getKiller().getGameMode() == GameMode.CREATIVE) {
+        //    return;
+        //}
 
         if (!plugin.utils.isMobEnabled(entity)) {
+            plugin.debug("not enabled for entity type "+entity.getType().name());
             return;
         }
 
@@ -104,7 +111,8 @@ public class Listener implements org.bukkit.event.Listener {
         //entity.getKiller().sendMessage("You have killed entity "+entity.getName());
 
         List<ItemStack> drops = event.getDrops();
-        Utils.addOrDrop(drops.toArray(new ItemStack[0]),entity.getKiller());
+        plugin.debug("Dropping contents for entity kill to player inv");
+        plugin.utils.addOrDrop(drops.toArray(new ItemStack[0]),entity.getKiller());
         event.getDrops().clear();
     }
 
@@ -124,7 +132,7 @@ public class Listener implements org.bukkit.event.Listener {
             ItemStack content = frame.getItem();
             if(content != null && content.getType()!=Material.AIR) {
                 plugin.debug("The frame contained "+content.toString());
-                Utils.addOrDrop(content,p);
+                plugin.utils.addOrDrop(content,p);
             } else {
                 return;
             }
@@ -148,15 +156,15 @@ public class Listener implements org.bukkit.event.Listener {
             ItemStack content = frame.getItem();
             if(content != null) {
                 plugin.debug("The frame contained "+content.toString());
-                Utils.addOrDrop(content,p);
+                plugin.utils.addOrDrop(content,p);
             }
-            Utils.addOrDrop(new ItemStack(Material.ITEM_FRAME),p);
+            plugin.utils.addOrDrop(new ItemStack(Material.ITEM_FRAME),p);
             event.getEntity().remove();
             event.setCancelled(true);
         }
 
         if(event.getEntity() instanceof Painting) {
-            Utils.addOrDrop(new ItemStack(Material.PAINTING),p);
+            plugin.utils.addOrDrop(new ItemStack(Material.PAINTING),p);
             event.getEntity().remove();
         }
 
@@ -207,7 +215,7 @@ public class Listener implements org.bukkit.event.Listener {
             ArrayList<Block> plant = PlantUtils.getPlant(event.getBlock());
             int extraAmount = plant.size();
             ItemStack plantItems = new ItemStack(PlantUtils.getPlantDrop(event.getBlock().getType()), extraAmount);
-            Utils.addOrDrop(plantItems,event.getPlayer());
+            plugin.utils.addOrDrop(plantItems,event.getPlayer());
             PlantUtils.destroyPlant(plant);
         } else if(PlantUtils.isChorusTree(event.getBlock())) {
             // Note:
@@ -226,22 +234,22 @@ public class Listener implements org.bukkit.event.Listener {
             }
 
             ItemStack flowerDrops = new ItemStack(Material.CHORUS_FRUIT, extraAmountChorusFruit);
-            Utils.addOrDrop(flowerDrops,event.getPlayer());
+            plugin.utils.addOrDrop(flowerDrops,event.getPlayer());
             PlantUtils.destroyPlant(chorusTree);
         } else if(event.getBlock().getState() instanceof Furnace) {
 
             FurnaceInventory finv = ((Furnace) event.getBlock().getState()).getInventory();
 
             if(finv.getFuel()!=null) {
-                Utils.addOrDrop(finv.getFuel(),event.getPlayer());
+                plugin.utils.addOrDrop(finv.getFuel(),event.getPlayer());
                 finv.setFuel(null);
             }
             if(finv.getSmelting()!=null) {
-                Utils.addOrDrop(finv.getSmelting(),event.getPlayer());
+                plugin.utils.addOrDrop(finv.getSmelting(),event.getPlayer());
                 finv.setSmelting(null);
             }
             if(finv.getResult()!=null) {
-                Utils.addOrDrop(finv.getResult(),event.getPlayer());
+                plugin.utils.addOrDrop(finv.getResult(),event.getPlayer());
                 finv.setResult(null);
             }
 
@@ -348,10 +356,7 @@ public class Listener implements org.bukkit.event.Listener {
             }
         }*/
         for(Item item : items) {
-            Utils.addOrDrop(item.getItemStack(),event.getPlayer());
-            if(plugin.autoCondense) {
-                plugin.ingotCondenser.condense(event.getPlayer().getInventory(), item.getItemStack().getType());
-            }
+            plugin.utils.addOrDrop(item.getItemStack(),event.getPlayer());
         }
 
 
