@@ -97,7 +97,7 @@ public class Listener implements org.bukkit.event.Listener {
         if (plugin.getConfig().getBoolean("collect-mob-exp")) {
             int exp = event.getDroppedExp();
 
-            if(MendingUtils.hasMending(p.getInventory().getItemInMainHand(),false)) {
+            if(MendingUtils.hasMending(plugin.utils.getItemInMainHand(p),false)) {
                 exp = plugin.mendingUtils.tryMending(p.getInventory(), exp, onlyDamaged);
             }
 
