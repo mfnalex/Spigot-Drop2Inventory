@@ -1,5 +1,8 @@
 # Changelog
 
+## 4.5.0
+- Added limited compatibility for versions 1.8-1.12.2
+
 ## 4.4.1
 - Auto-Condense now also works for gold/iron nuggets, bone meal and slime balls. It also works when killing mobs now.
 - Fixed possible NullPointerException when Auto-Condense is enabled

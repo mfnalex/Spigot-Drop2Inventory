@@ -4,7 +4,9 @@ import org.apache.commons.lang.math.NumberUtils;
 import org.bukkit.Material;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
+import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
+import org.bukkit.inventory.PlayerInventory;
 
 import java.util.HashMap;
 import java.util.regex.Matcher;
@@ -62,6 +64,20 @@ public class Utils {
 				plugin.ingotCondenser.condense(player.getInventory(), item.getType());
 			}
 		}
+	}
+
+	ItemStack getItemInMainHand(Player p) {
+		if(plugin.mcVersion<9) {
+			return p.getInventory().getItemInHand();
+		}
+		return p.getInventory().getItemInMainHand();
+	}
+
+	ItemStack getItemInMainHand(PlayerInventory inv) {
+		if(plugin.mcVersion<9) {
+			return inv.getItemInHand();
+		}
+		return inv.getItemInMainHand();
 	}
 
 	// Returns 16 for 1.16, etc.

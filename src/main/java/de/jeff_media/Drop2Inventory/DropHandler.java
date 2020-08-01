@@ -14,7 +14,7 @@ import org.bukkit.inventory.ItemStack;
 
 public class DropHandler {
 	
-	/*Main plugin;
+	Main plugin;
 	Random rand = new Random();
 	
 	DropHandler(Main plugin) {
@@ -31,8 +31,13 @@ public class DropHandler {
 		boolean hasSilkTouch = false;
 		//boolean hasFortune = false;
 		int fortuneLevel = 0;
-		
-		ItemStack itemInMainHand = player.getInventory().getItemInMainHand();
+		ItemStack itemInMainHand;
+		if(plugin.mcVersion<9) {
+			itemInMainHand = player.getInventory().getItemInHand();
+		}
+		else {
+			itemInMainHand = player.getInventory().getItemInMainHand();
+		}
 
 		if (itemInMainHand.containsEnchantment(Enchantment.SILK_TOUCH)) {
 			hasSilkTouch = true;
@@ -64,7 +69,7 @@ public class DropHandler {
 			}
 		}
 
-		if(block.getBlockData() instanceof Bed) {
+		if(plugin.mcVersion >= 13 && block.getBlockData() instanceof Bed) {
 			Bed bed = (Bed) block.getBlockData();
 			if(bed.getPart() == Bed.Part.FOOT) {
 				drops.add(getBed(block.getType()));
@@ -78,17 +83,22 @@ public class DropHandler {
 			}
 		}
 
-		if (event.getPlayer().getInventory().getItemInMainHand() != null) {
-			plugin.tryToTakeDurability(event.getPlayer().getInventory().getItemInMainHand(), event.getPlayer());
+		if(plugin.mcVersion>8) {
+			event.setDropItems(false);
+		} else {
+
+			event.setCancelled(true);
+			block.setType(Material.AIR);
+
+			if (itemInMainHand != null) {
+				LegacyUtils.tryToTakeDurability18(itemInMainHand, event.getPlayer());
+			}
 		}
 
-		event.setDropItems(false);
 
 		//CraftMagicNumbers.getBlock(block).getDropCount(fortuneLevel, random);
 
 
-		//event.setCancelled(true);
-		//block.setType(Material.AIR);
 	}
 
 	private ItemStack getBed(Material type) {
@@ -148,5 +158,5 @@ public class DropHandler {
 		
 		return itemStack;
 	}
-*/
+
 }

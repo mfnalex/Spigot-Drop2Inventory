@@ -24,11 +24,12 @@ public class Main extends JavaPlugin {
 
 	int currentConfigVersion = 10;
 
-	//BlockDropWrapper blockDropWrapper;
-	//DropHandler dropHandler;
+	BlockDropWrapper blockDropWrapper;
+	DropHandler dropHandler;
 	PluginUpdateChecker updateChecker;
 	Messages messages;
 	Utils utils;
+	MendingUtils mendingUtils;
 	IngotCondenser ingotCondenser;
 
 	HashMap<String, PlayerSetting> perPlayerSettings;
@@ -60,7 +61,6 @@ public class Main extends JavaPlugin {
 		createConfig();
 
 		perPlayerSettings = new HashMap<String, PlayerSetting>();
-		//dropHandler = new DropHandler(this);
 		messages = new Messages(this);
 		ingotCondenser = new IngotCondenser(this);
 		CommandDrop2Inv commandDrop2Inv = new CommandDrop2Inv(this);
@@ -72,10 +72,19 @@ public class Main extends JavaPlugin {
 		autoCondense = getConfig().getBoolean("auto-condense");
 
 		this.getServer().getPluginManager().registerEvents(new Listener(this), this);
+		if(mcVersion>=13) {
+			this.getServer().getPluginManager().registerEvents(new DropListener(this),this);
+			debug("MC Version is above 1.13, using BlockDropItemEvent");
+		} else {
+			blockDropWrapper = new BlockDropWrapper();
+			dropHandler = new DropHandler(this);
+			this.getServer().getPluginManager().registerEvents(new DropListenerLegacy(this),this);
+			debug("MC Version is 1.12 or below, using BlockBreakEvent");
+		}
 
 		utils = new Utils(this);
+		mendingUtils = new MendingUtils(this);
 
-		//blockDropWrapper = new BlockDropWrapper();
 		updateChecker = new PluginUpdateChecker(this,"https://api.jeff-media.de/drop2inventory/drop2inventory-latest-version.txt",
 				"https://www.spigotmc.org/resources/1-9-1-16-drop2inventory.62214/","https://github.com/JEFF-Media-GbR/Spigot-Drop2Inventory/blob/master/CHANGELOG.md","https://paypal.me/mfnalex");
 

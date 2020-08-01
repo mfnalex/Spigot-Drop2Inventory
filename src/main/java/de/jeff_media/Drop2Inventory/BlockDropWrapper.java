@@ -14,7 +14,7 @@ import org.bukkit.block.data.type.Door;
 import org.bukkit.inventory.ItemStack;
 
 public class BlockDropWrapper {
-	/*
+
 	// STUFF THAT I HAVE LEFT OUT:
 	// Double Slabs -> normal slabs (maybe they will disappear? I have to check)
 	// Infested blocks -> normal blocks
@@ -292,5 +292,5 @@ public class BlockDropWrapper {
 			
 		} 
 	}
-*/
+
 }
