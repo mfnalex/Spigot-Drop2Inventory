@@ -29,7 +29,11 @@ public class MendingUtils {
             if (!(meta instanceof Damageable)) return false;
             if (((Damageable) meta).getDamage() == 0) return false;
         }
-        return meta.hasEnchant(Enchantment.MENDING);
+        try {
+            return meta.hasEnchant(Enchantment.MENDING);
+        } catch (NoSuchFieldError e) {
+            return false;
+        }
     }
 
     @Nullable
