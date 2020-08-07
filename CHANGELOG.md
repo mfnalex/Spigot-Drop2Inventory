@@ -1,5 +1,10 @@
 # Changelog
 
+## 4.5.1
+- Fixed Exception in MC 1.8
+- Fixed Exception when attempting to drop air
+- Changed event priority to support custom drops by other plugin
+
 ## 4.5.0
 - Added limited compatibility for versions 1.8-1.12.2
 

@@ -30,7 +30,15 @@ public class MendingUtils {
             if (((Damageable) meta).getDamage() == 0) return false;
         }
         try {
-            return meta.hasEnchant(Enchantment.MENDING);
+            if(meta.hasEnchant(Enchantment.MENDING)) {
+                return true;
+
+
+                
+            }
+            else {
+                return false;
+            }
         } catch (NoSuchFieldError e) {
             return false;
         }
@@ -59,6 +67,7 @@ public class MendingUtils {
         ItemMeta meta = item.getItemMeta();
         Damageable damageable = (Damageable) meta;
         if(damageable.getDamage()==0) return false;
+        System.out.println("reparing item "+item.getType().name());
         damageable.setDamage(damageable.getDamage()-2);
         if(damageable.getDamage()<0) {
             damageable.setDamage(0);
