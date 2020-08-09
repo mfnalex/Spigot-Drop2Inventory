@@ -27,14 +27,14 @@ public class DropListenerLegacy implements Listener {
         }
 
         if (event.isCancelled()) {
-            System.out.println("Return: cancelled");
+            //System.out.println("Return: cancelled");
             return;
         }
 
         Player player = event.getPlayer();
 
         if (!player.hasPermission("drop2inventory.use")) {
-            System.out.println("Return: permission");
+            //System.out.println("Return: permission");
             return;
         }
 
@@ -42,13 +42,13 @@ public class DropListenerLegacy implements Listener {
         plugin.registerPlayer(event.getPlayer());
 
         if (player.getGameMode() == GameMode.CREATIVE) {
-            System.out.println("Return: Creative mode");
+            //System.out.println("Return: Creative mode");
             return;
         }
 
         // disabled block?
         if(!plugin.utils.isBlockEnabled(event.getBlock().getType())) {
-            System.out.println("Return: Block disabled");
+            //System.out.println("Return: Block disabled");
             return;
         }
 
@@ -59,7 +59,7 @@ public class DropListenerLegacy implements Listener {
         }
 
         if(!plugin.getConfig().getBoolean("collect-block-drops")) {
-            System.out.println("Return: no collect-block-drops");
+            //System.out.println("Return: no collect-block-drops");
             return;
         }
 

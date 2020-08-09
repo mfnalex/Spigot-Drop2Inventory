@@ -1,5 +1,8 @@
 # Changelog
 
+## 4.5.2
+- Removed forgotten debug messages (sorry about that :( )
+
 ## 4.5.1
 - Fixed Exception in MC 1.8
 - Fixed Exception when attempting to drop air
