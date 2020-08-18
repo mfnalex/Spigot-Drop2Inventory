@@ -22,7 +22,7 @@ import org.bukkit.Material;
 
 public class Main extends JavaPlugin {
 
-	int currentConfigVersion = 10;
+	int currentConfigVersion = 12;
 
 	BlockDropWrapper blockDropWrapper;
 	DropHandler dropHandler;
@@ -31,6 +31,7 @@ public class Main extends JavaPlugin {
 	Utils utils;
 	MendingUtils mendingUtils;
 	IngotCondenser ingotCondenser;
+	ItemSpawnListener itemSpawnListener;
 
 	HashMap<String, PlayerSetting> perPlayerSettings;
 
@@ -63,6 +64,7 @@ public class Main extends JavaPlugin {
 		perPlayerSettings = new HashMap<String, PlayerSetting>();
 		messages = new Messages(this);
 		ingotCondenser = new IngotCondenser(this);
+		itemSpawnListener = new ItemSpawnListener(this);
 		CommandDrop2Inv commandDrop2Inv = new CommandDrop2Inv(this);
 		
 		enabledByDefault = getConfig().getBoolean("enabled-by-default");
@@ -72,6 +74,7 @@ public class Main extends JavaPlugin {
 		autoCondense = getConfig().getBoolean("auto-condense");
 
 		this.getServer().getPluginManager().registerEvents(new Listener(this), this);
+		this.getServer().getPluginManager().registerEvents(itemSpawnListener,this);
 		if(mcVersion>=13) {
 			this.getServer().getPluginManager().registerEvents(new DropListener(this),this);
 			debug("MC Version is above 1.13, using BlockDropItemEvent");
@@ -193,6 +196,7 @@ public class Main extends JavaPlugin {
 		getConfig().addDefault("collect-block-exp", true);
 		getConfig().addDefault("collect-mob-exp", true);
 		getConfig().addDefault("auto-condense",false);
+		getConfig().addDefault("detect-legacy-drops",true);
 		disabledBlocks = new ArrayList<>();
 		disabledMobs = new ArrayList<>();
 		ArrayList<String> disabledBlocksStrings = (ArrayList<String>) getConfig().getStringList("disabled-blocks");
@@ -254,6 +258,8 @@ public class Main extends JavaPlugin {
 }
 	
 	boolean enabled(Player p) {
+
+		if(getConfig().getBoolean("always-enabled")) return true;
 		
 		// The following is for all the lazy server admins who use /reload instead of properly restarting their
 		// server ;) I am sometimes getting stacktraces although it is clearly stated that /reload is NOT

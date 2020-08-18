@@ -53,6 +53,26 @@ public class Utils {
 		}
 	}
 
+	static boolean hasPermissionForThisTool(Material mat, Player p) {
+		String matt = mat.name().toLowerCase();
+		if(matt.contains("_pickaxe")) {
+			return p.hasPermission("drop2inventory.tool.pickaxe");
+		}
+		if(matt.contains("_axe")) {
+			return p.hasPermission("drop2inventory.tool.axe");
+		}
+		if(matt.contains("_hoe")) {
+			return p.hasPermission("drop2inventory.tool.hoe");
+		}
+		if(matt.contains("_sword")) {
+			return p.hasPermission("drop2inventory.tool.sword");
+		}
+		if(matt.contains("_shovel")) {
+			return p.hasPermission("drop2inventory.tool.shovel");
+		}
+		else return p.hasPermission("drop2inventory.tool.hand");
+	}
+
 	void addOrDrop(ItemStack[] items, Player player) {
 		for(ItemStack item : items) {
 			if(item==null) continue;

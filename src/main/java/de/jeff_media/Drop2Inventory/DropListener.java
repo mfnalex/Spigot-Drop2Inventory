@@ -35,6 +35,10 @@ public class DropListener implements @NotNull Listener {
             return;
         }
 
+        if(plugin.getConfig().getBoolean("permissions-per-tool",false) && !(Utils.hasPermissionForThisTool(player.getItemInHand().getType(),player))) {
+            return;
+        }
+
         // Fix for /reload
         plugin.registerPlayer(event.getPlayer());
 

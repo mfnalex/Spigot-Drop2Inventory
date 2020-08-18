@@ -1,5 +1,11 @@
 # Changelog
 
+## 4.6.0
+- Added support for all properly coded custom drop plugins
+- Added support for plugins that create custom drops in ominous ways (toggleable)
+- Added possibility to use permissions per tool
+- Fixed "always-enabled" not working when the player disabled Drop2Inv before this setting was enabled
+
 ## 4.5.2
 - Removed forgotten debug messages (sorry about that :( )
 
