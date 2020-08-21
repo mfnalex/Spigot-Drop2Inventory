@@ -133,9 +133,9 @@ public class Main extends JavaPlugin {
 			return;
 		}
 		Damageable damageMeta = (Damageable) itemInMainHand.getItemMeta();
-		// System.out.println("Max Durabilty of "+itemInMainHand.getType().name() + ":
-		// "+itemInMainHand.getType().getMaxDurability());
-		// System.out.println("Current damage: "+damageMeta.getDamage());
+		 //System.out.println("Max Durabilty of "+itemInMainHand.getType().name() + ":"
+		 //+itemInMainHand.getType().getMaxDurability());
+		 //System.out.println("Current damage: "+damageMeta.getDamage());
 
 
 		int currentDamage = damageMeta.getDamage();

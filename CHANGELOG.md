@@ -1,5 +1,8 @@
 # Changelog
 
+## 4.6.1
+- Fixed StackOverflow when mining blocks if inventory is full
+
 ## 4.6.0
 - Added support for all properly coded custom drop plugins
 - Added support for plugins that create custom drops in ominous ways (toggleable)

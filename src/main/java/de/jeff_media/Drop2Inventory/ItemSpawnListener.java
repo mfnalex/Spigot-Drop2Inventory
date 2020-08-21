@@ -65,6 +65,10 @@ public class ItemSpawnListener implements @NotNull Listener {
         if(p==null) return;
         main.debug("Nearest player: "+p.getName());
 
+        if(isInvFull(p)) {
+            main.debug("Skipping collection because inv is full");
+            return;
+        }
 
         // Fix for /reload
         main.registerPlayer(p);
@@ -109,6 +113,13 @@ public class ItemSpawnListener implements @NotNull Listener {
 
         main.utils.addOrDrop(is,p);
         e.getEntity().remove();
+    }
+
+    private boolean isInvFull(Player p) {
+        for(ItemStack i : p.getInventory().getStorageContents()) {
+            if(i == null || i.getAmount()==0 || i.getType()==Material.AIR) return false;
+        }
+        return true;
     }
 
     @Nullable
