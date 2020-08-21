@@ -97,8 +97,8 @@ public class Listener implements org.bukkit.event.Listener {
         if (plugin.getConfig().getBoolean("collect-mob-exp")) {
             int exp = event.getDroppedExp();
 
-            if(MendingUtils.hasMending(p.getInventory().getItemInMainHand(),false)) {
-                exp = MendingUtils.tryMending(p.getInventory(), exp, onlyDamaged);
+            if(MendingUtils.hasMending(plugin.utils.getItemInMainHand(p),false)) {
+                exp = plugin.mendingUtils.tryMending(p.getInventory(), exp, onlyDamaged);
             }
 
             event.setDroppedExp(0);
@@ -171,6 +171,8 @@ public class Listener implements org.bukkit.event.Listener {
     }
 
 
+
+
     @EventHandler(priority = EventPriority.HIGHEST)
     public void onBlockBreak(BlockBreakEvent event) {
 
@@ -196,8 +198,8 @@ public class Listener implements org.bukkit.event.Listener {
 
         if (plugin.enabled(player) && plugin.getConfig().getBoolean("collect-block-exp")) {
             int experience = event.getExpToDrop();
-            if(MendingUtils.hasMending(event.getPlayer().getInventory().getItemInMainHand(),false)) {
-                experience = MendingUtils.tryMending(event.getPlayer().getInventory(), experience,onlyDamaged);
+            if(MendingUtils.hasMending(plugin.utils.getItemInMainHand(event.getPlayer()),false)) {
+                experience = plugin.mendingUtils.tryMending(event.getPlayer().getInventory(), experience,onlyDamaged);
             }
             event.getPlayer().giveExp(experience);
             event.setExpToDrop(0);
@@ -300,67 +302,4 @@ public class Listener implements org.bukkit.event.Listener {
         return true;
     }
 
-    @EventHandler
-    public void onItemDrop(BlockDropItemEvent event) {
-        List<Item> items = event.getItems();
-        Player player = event.getPlayer();
-        World world = event.getPlayer().getLocation().getWorld();
-
-        if (event.isCancelled()) {
-            return;
-        }
-
-        if (!player.hasPermission("drop2inventory.use")) {
-            return;
-        }
-
-        // Fix for /reload
-        plugin.registerPlayer(event.getPlayer());
-
-        if (player.getGameMode() == GameMode.CREATIVE) {
-            return;
-        }
-
-        // disabled block?
-        if (!plugin.utils.isBlockEnabled(event.getBlock().getType())) {
-            return;
-        }
-
-        if (!plugin.getConfig().getBoolean("collect-block-drops")) {
-            return;
-        }
-
-
-        PlayerSetting setting = plugin.perPlayerSettings.get(player.getUniqueId().toString());
-
-        if (!plugin.enabled(player)) {
-            if (!setting.hasSeenMessage) {
-                setting.hasSeenMessage = true;
-                if (plugin.getConfig().getBoolean("show-message-when-breaking-block")) {
-                    player.sendMessage(plugin.messages.MSG_COMMANDMESSAGE);
-                }
-            }
-            return;
-        }
-        if (!setting.hasSeenMessage) {
-            setting.hasSeenMessage = true;
-            if (plugin.getConfig().getBoolean("show-message-when-breaking-block-and-collection-is-enabled")) {
-                player.sendMessage(plugin.messages.MSG_COMMANDMESSAGE2);
-            }
-        }
-
-        /*for (Item item : items) {
-            HashMap<Integer, ItemStack> leftovers = player.getInventory().addItem(item.getItemStack());
-            for (ItemStack leftover : leftovers.values()) {
-                world.dropItem(player.getLocation(), leftover);
-            }
-        }*/
-        for(Item item : items) {
-            plugin.utils.addOrDrop(item.getItemStack(),event.getPlayer());
-        }
-
-
-
-        event.setCancelled(true);
-    }
 }

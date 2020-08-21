@@ -4,7 +4,9 @@ import org.apache.commons.lang.math.NumberUtils;
 import org.bukkit.Material;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
+import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
+import org.bukkit.inventory.PlayerInventory;
 
 import java.util.HashMap;
 import java.util.regex.Matcher;
@@ -51,8 +53,30 @@ public class Utils {
 		}
 	}
 
+	static boolean hasPermissionForThisTool(Material mat, Player p) {
+		String matt = mat.name().toLowerCase();
+		if(matt.contains("_pickaxe")) {
+			return p.hasPermission("drop2inventory.tool.pickaxe");
+		}
+		if(matt.contains("_axe")) {
+			return p.hasPermission("drop2inventory.tool.axe");
+		}
+		if(matt.contains("_hoe")) {
+			return p.hasPermission("drop2inventory.tool.hoe");
+		}
+		if(matt.contains("_sword")) {
+			return p.hasPermission("drop2inventory.tool.sword");
+		}
+		if(matt.contains("_shovel")) {
+			return p.hasPermission("drop2inventory.tool.shovel");
+		}
+		else return p.hasPermission("drop2inventory.tool.hand");
+	}
+
 	void addOrDrop(ItemStack[] items, Player player) {
 		for(ItemStack item : items) {
+			if(item==null) continue;
+			if(item.getType()==Material.AIR) continue;
 			HashMap<Integer, ItemStack> leftovers = player.getInventory().addItem(item);
 			for (ItemStack leftover : leftovers.values()) {
 				player.getWorld().dropItem(player.getLocation(), leftover);
@@ -62,6 +86,20 @@ public class Utils {
 				plugin.ingotCondenser.condense(player.getInventory(), item.getType());
 			}
 		}
+	}
+
+	ItemStack getItemInMainHand(Player p) {
+		if(plugin.mcVersion<9) {
+			return p.getInventory().getItemInHand();
+		}
+		return p.getInventory().getItemInMainHand();
+	}
+
+	ItemStack getItemInMainHand(PlayerInventory inv) {
+		if(plugin.mcVersion<9) {
+			return inv.getItemInHand();
+		}
+		return inv.getItemInMainHand();
 	}
 
 	// Returns 16 for 1.16, etc.

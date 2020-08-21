@@ -16,6 +16,10 @@ import java.util.Collections;
 import java.util.List;
 
 public class MendingUtils {
+    final Main main;
+    MendingUtils(Main main) {
+        this.main=main;
+    }
 
     static boolean hasMending(@Nullable ItemStack item,boolean onlyDamaged) {
         if(item==null) return false;
@@ -25,16 +29,30 @@ public class MendingUtils {
             if (!(meta instanceof Damageable)) return false;
             if (((Damageable) meta).getDamage() == 0) return false;
         }
-        return meta.hasEnchant(Enchantment.MENDING);
+        try {
+            if(meta.hasEnchant(Enchantment.MENDING)) {
+                return true;
+
+
+                
+            }
+            else {
+                return false;
+            }
+        } catch (NoSuchFieldError e) {
+            return false;
+        }
     }
 
     @Nullable
-    static ItemStack getReparableItem(PlayerInventory inv,boolean onlyDamaged) {
+    ItemStack getReparableItem(PlayerInventory inv,boolean onlyDamaged) {
         // onlyDamaged is true in 1.16+ and only tries to repair damaged items
 
         List<ItemStack> list = new ArrayList<>();
-        if(hasMending(inv.getItemInMainHand(),onlyDamaged)) list.add(inv.getItemInMainHand());
-        if(hasMending(inv.getItemInOffHand(),onlyDamaged)) list.add(inv.getItemInOffHand());
+        if(hasMending(main.utils.getItemInMainHand(inv),onlyDamaged)) list.add(inv.getItemInMainHand());
+        if(main.mcVersion>8) {
+            if(hasMending(inv.getItemInOffHand(),onlyDamaged)) list.add(inv.getItemInOffHand());
+        }
         for(ItemStack item : inv.getArmorContents()) {
             if(hasMending(item,onlyDamaged)) {
                 list.add(item);
@@ -49,6 +67,7 @@ public class MendingUtils {
         ItemMeta meta = item.getItemMeta();
         Damageable damageable = (Damageable) meta;
         if(damageable.getDamage()==0) return false;
+        //System.out.println("reparing item "+item.getType().name());
         damageable.setDamage(damageable.getDamage()-2);
         if(damageable.getDamage()<0) {
             damageable.setDamage(0);
@@ -57,7 +76,7 @@ public class MendingUtils {
         return true;
     }
 
-    static int tryMending(PlayerInventory inv, int exp, boolean onlyDamaged) {
+    int tryMending(PlayerInventory inv, int exp, boolean onlyDamaged) {
         int repairs = 0;
         while(repairs < exp) {
             ItemStack item = getReparableItem(inv,onlyDamaged);

@@ -48,6 +48,18 @@ show-message-when-breaking-block-and-collection-is-enabled: false
 # logs out and back in and then breaks a block again.
 show-message-again-after-logout: true
 
+# when enabled, players need the permissions "drop2inventory.tool.pickaxe"
+# to auto pickup blocks farmed with a pickaxe, "drop2inventory.tool.hoe" for
+# blocks farmed with a hoe, etc.
+# tip: you probably do NOT want this enabled^^
+permissions-per-tool: false
+
+# when enabled, Drop2Inventory tries to detect items that other plugins drop
+# using the World#dropItem methods.
+# This allows Drop2Inventory to detect block drops that other plugins create
+# in ominous ways.
+detect-legacy-drops: true
+
 # Should we check for updates?
 # When enabled, a message is printed in the console if a new version has
 # been found, and OPs will be notified when they join the server.
@@ -153,4 +165,4 @@ message-when-breaking-block2: "&7Hint: Type &6/drop2inventory&7 or &6/drop2inv&7
 debug: false
 
 # please do not change the following line manually!
-config-version: 10
+config-version: 12

@@ -1,10 +1,13 @@
 package de.jeff_media.Drop2Inventory;
 
 import org.bukkit.ChatColor;
+import org.bukkit.Location;
+import org.bukkit.Material;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
+import org.bukkit.inventory.ItemStack;
 
 public class CommandDrop2Inv implements CommandExecutor {
 	
@@ -20,6 +23,18 @@ public class CommandDrop2Inv implements CommandExecutor {
 		if(!command.getName().equalsIgnoreCase("drop2inventory")) {
 			return false;
 		}
+
+		// Debug
+		if(args.length==3) {
+			int x = Integer.parseInt(args[0]);
+			int y = Integer.parseInt(args[1]);
+			int z = Integer.parseInt(args[2]);
+			Player p = (Player) sender;
+			p.getWorld().dropItem(new Location(p.getWorld(),x,y,z),new ItemStack(Material.EMERALD));
+			p.getWorld().dropItemNaturally(new Location(p.getWorld(),x,y,z),new ItemStack(Material.EMERALD_BLOCK));
+			return true;
+		}
+		// Debug end
 
 		if(plugin.getConfig().getBoolean("always-enabled")) {
 			sender.sendMessage(ChatColor.RED+"Drop2Inventory cannot be disabled.");
