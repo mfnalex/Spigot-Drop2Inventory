@@ -1,5 +1,9 @@
 # Changelog
 
+## 4.6.2
+- Fixed Player drops disappearing when player is killed by another player and legacy drop detection is enabled
+- Fixed legacy drop detection throwing errors on old Spigot versions
+
 ## 4.6.1
 - Fixed StackOverflow when mining blocks if inventory is full
 

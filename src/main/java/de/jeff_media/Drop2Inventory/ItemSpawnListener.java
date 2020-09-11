@@ -59,8 +59,13 @@ public class ItemSpawnListener implements @NotNull Listener {
         main.debug("onItemSpawn 4");
         if(is.getAmount() == 0) return;
         main.debug("onItemSpawn 5");
-
-        Player p = getNearestPlayer(e.getLocation());
+        Player p;
+        try {
+            p = getNearestPlayer(e.getLocation());
+        } catch(NoSuchMethodError error) {
+            main.debug("Legacy drop detection is not supported on old Spigot versions");
+            return;
+        }
 
         if(p==null) return;
         main.debug("Nearest player: "+p.getName());
@@ -123,13 +128,13 @@ public class ItemSpawnListener implements @NotNull Listener {
     }
 
     @Nullable
-    private Player getNearestPlayer(Location location) {
+    private Player getNearestPlayer(Location location) throws NoSuchMethodError {
 
         ArrayList<Player> players = new ArrayList<Player>();
         for(Entity e : location.getWorld().getNearbyEntities(location, 6, 6, 6, new Predicate<Entity>() {
             @Override
             public boolean test(Entity entity) {
-                return entity instanceof Player;
+                return entity instanceof Player && !((Player) entity).isDead();
             }
         })) {
             players.add((Player) e);
