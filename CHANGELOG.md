@@ -1,5 +1,8 @@
 # Changelog
 
+## 4.6.3
+- Fixed block blacklist/whitelist not working on versions 1.13 and later
+
 ## 4.6.2
 - Fixed Player drops disappearing when player is killed by another player and legacy drop detection is enabled
 - Fixed legacy drop detection throwing errors on old Spigot versions

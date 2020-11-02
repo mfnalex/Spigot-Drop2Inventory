@@ -47,7 +47,7 @@ public class DropListener implements @NotNull Listener {
         }
 
         // disabled block?
-        if (!plugin.utils.isBlockEnabled(event.getBlock().getType())) {
+        if (!plugin.utils.isBlockEnabled(event.getBlockState().getType())) {
             return;
         }
 
