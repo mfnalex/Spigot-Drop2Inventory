@@ -25,7 +25,7 @@ public class CommandDrop2Inv implements CommandExecutor {
 		}
 
 		// Debug
-		if(args.length==3) {
+		/*if(args.length==3) {
 			int x = Integer.parseInt(args[0]);
 			int y = Integer.parseInt(args[1]);
 			int z = Integer.parseInt(args[2]);
@@ -33,7 +33,7 @@ public class CommandDrop2Inv implements CommandExecutor {
 			p.getWorld().dropItem(new Location(p.getWorld(),x,y,z),new ItemStack(Material.EMERALD));
 			p.getWorld().dropItemNaturally(new Location(p.getWorld(),x,y,z),new ItemStack(Material.EMERALD_BLOCK));
 			return true;
-		}
+		}*/
 		// Debug end
 
 		if(plugin.getConfig().getBoolean("always-enabled")) {

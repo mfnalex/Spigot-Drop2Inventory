@@ -59,12 +59,21 @@ public class ItemSpawnListener implements @NotNull Listener {
         main.debug("onItemSpawn 4");
         if(is.getAmount() == 0) return;
         main.debug("onItemSpawn 5");
-
-        Player p = getNearestPlayer(e.getLocation());
+        Player p;
+        try {
+            p = getNearestPlayer(e.getLocation());
+        } catch(NoSuchMethodError error) {
+            main.debug("Legacy drop detection is not supported on old Spigot versions");
+            return;
+        }
 
         if(p==null) return;
         main.debug("Nearest player: "+p.getName());
 
+        if(isInvFull(p)) {
+            main.debug("Skipping collection because inv is full");
+            return;
+        }
 
         // Fix for /reload
         main.registerPlayer(p);
@@ -111,14 +120,21 @@ public class ItemSpawnListener implements @NotNull Listener {
         e.getEntity().remove();
     }
 
+    private boolean isInvFull(Player p) {
+        for(ItemStack i : p.getInventory().getStorageContents()) {
+            if(i == null || i.getAmount()==0 || i.getType()==Material.AIR) return false;
+        }
+        return true;
+    }
+
     @Nullable
-    private Player getNearestPlayer(Location location) {
+    private Player getNearestPlayer(Location location) throws NoSuchMethodError {
 
         ArrayList<Player> players = new ArrayList<Player>();
         for(Entity e : location.getWorld().getNearbyEntities(location, 6, 6, 6, new Predicate<Entity>() {
             @Override
             public boolean test(Entity entity) {
-                return entity instanceof Player;
+                return entity instanceof Player && !((Player) entity).isDead();
             }
         })) {
             players.add((Player) e);

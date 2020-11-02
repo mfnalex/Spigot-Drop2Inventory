@@ -2,6 +2,7 @@ package de.jeff_media.Drop2Inventory;
 
 import org.apache.commons.lang.math.NumberUtils;
 import org.bukkit.Material;
+import org.bukkit.entity.Item;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.Inventory;
@@ -79,7 +80,8 @@ public class Utils {
 			if(item.getType()==Material.AIR) continue;
 			HashMap<Integer, ItemStack> leftovers = player.getInventory().addItem(item);
 			for (ItemStack leftover : leftovers.values()) {
-				player.getWorld().dropItem(player.getLocation(), leftover);
+				Item drop = player.getWorld().dropItemNaturally(player.getLocation(), leftover);
+				plugin.itemSpawnListener.drops.add(drop.getUniqueId());
 			}
 			if(plugin.autoCondense) {
 				plugin.debug("Auto condensing "+item.getType().name());
