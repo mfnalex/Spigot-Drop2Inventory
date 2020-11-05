@@ -1,6 +1,6 @@
 main: de.jeff_media.Drop2Inventory.Main
 name: Drop2Inventory
-version: 4.6.3
+version: 4.6.4
 api-version: 1.13
 description: Items dropped by breaking blocks will be put into your inventory
 author: mfnalex

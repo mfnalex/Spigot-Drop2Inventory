@@ -201,7 +201,7 @@ public class Main extends JavaPlugin {
 		disabledMobs = new ArrayList<>();
 		ArrayList<String> disabledBlocksStrings = (ArrayList<String>) getConfig().getStringList("disabled-blocks");
 		for(String s : disabledBlocksStrings) {
-			Material m = Material.getMaterial(s);
+			Material m = Material.getMaterial(s.toUpperCase());
 			if( m == null) {
 				getLogger().warning("Unrecognized material "+s);
 			} else {

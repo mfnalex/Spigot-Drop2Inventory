@@ -1,5 +1,8 @@
 # Changelog
 
+## 4.6.4
+- Disabled blocks list is now case insensitive
+
 ## 4.6.3
 - Fixed block blacklist/whitelist not working on versions 1.13 and later
 
