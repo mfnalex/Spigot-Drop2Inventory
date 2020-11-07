@@ -196,6 +196,15 @@ public class Listener implements org.bukkit.event.Listener {
             return;
         }
 
+
+
+
+
+
+        PlayerSetting setting = plugin.perPlayerSettings.get(player.getUniqueId().toString());
+
+        if (!isDrop2InvEnabled(player, setting)) return;
+
         if (plugin.enabled(player) && plugin.getConfig().getBoolean("collect-block-exp")) {
             int experience = event.getExpToDrop();
             if(MendingUtils.hasMending(plugin.utils.getItemInMainHand(event.getPlayer()),false)) {
@@ -204,13 +213,6 @@ public class Listener implements org.bukkit.event.Listener {
             event.getPlayer().giveExp(experience);
             event.setExpToDrop(0);
         }
-
-
-
-
-        PlayerSetting setting = plugin.perPlayerSettings.get(player.getUniqueId().toString());
-
-        if (!isDrop2InvEnabled(player, setting)) return;
 
         if(plantUtils.isPlant(event.getBlock())) {
             event.setDropItems(false);

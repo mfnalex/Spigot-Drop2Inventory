@@ -63,17 +63,27 @@ public class MendingUtils {
         return list.get(0);
     }
 
-    static boolean repair(ItemStack item) {
-        ItemMeta meta = item.getItemMeta();
-        Damageable damageable = (Damageable) meta;
-        if(damageable.getDamage()==0) return false;
-        //System.out.println("reparing item "+item.getType().name());
-        damageable.setDamage(damageable.getDamage()-2);
-        if(damageable.getDamage()<0) {
-            damageable.setDamage(0);
+    boolean repair(ItemStack item) {
+
+        if(main.mcVersion < 13) {
+            main.debug("Repairing - current durability: "+item.getDurability());
+            if(item.getDurability() <= 0) return false;
+            short newDurability = (short) (item.getDurability()-2);
+            if (newDurability < 0) newDurability = 0;
+            item.setDurability(newDurability);
+            return true;
+        } else {
+            ItemMeta meta = item.getItemMeta();
+            Damageable damageable = (Damageable) meta;
+            if (damageable.getDamage() == 0) return false;
+            //System.out.println("reparing item "+item.getType().name());
+            damageable.setDamage(damageable.getDamage() - 2);
+            if (damageable.getDamage() < 0) {
+                damageable.setDamage(0);
+            }
+            item.setItemMeta((ItemMeta) damageable);
+            return true;
         }
-        item.setItemMeta((ItemMeta)damageable);
-        return true;
     }
 
     int tryMending(PlayerInventory inv, int exp, boolean onlyDamaged) {

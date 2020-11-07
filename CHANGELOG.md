@@ -1,5 +1,8 @@
 # Changelog
 
+## 4.6.5
+- Fixed mending related exceptions in 1.12 and earlier
+
 ## 4.6.4
 - Disabled blocks list is now case insensitive
 
