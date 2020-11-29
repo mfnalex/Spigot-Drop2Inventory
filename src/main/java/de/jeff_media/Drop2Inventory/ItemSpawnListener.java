@@ -47,6 +47,10 @@ public class ItemSpawnListener implements @NotNull Listener {
             return;
         }
 
+        if(main.isWorldDisabled(e.getLocation().getWorld().getName())) {
+            return;
+        }
+
         if(!main.getConfig().getBoolean("detect-legacy-drops")) return;
         main.debug("onItemSpawn 1");
         if(e.getEntity() == null) return;

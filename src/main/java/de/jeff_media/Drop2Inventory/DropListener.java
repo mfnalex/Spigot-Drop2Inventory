@@ -31,6 +31,10 @@ public class DropListener implements @NotNull Listener {
             return;
         }
 
+        if(plugin.isWorldDisabled(world.getName())) {
+            return;
+        }
+
         if (!player.hasPermission("drop2inventory.use")) {
             return;
         }

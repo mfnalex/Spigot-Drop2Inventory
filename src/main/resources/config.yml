@@ -68,6 +68,22 @@ detect-legacy-drops: true
 # When set to false, don't check for updates
 check-for-updates: true
 
+#########################
+#### disabled worlds ####
+#########################
+
+# You can disable automatic drop collection for certain worlds.
+# Each worlds's name has to be on a separate line, starting
+# with a hyphen and followed by a space
+
+# Example:
+#
+# disabled-worlds:
+# - world
+# - world_nether
+
+disabled-worlds:
+
 #################################
 #### disabled/enabled blocks ####
 #################################
@@ -165,4 +181,4 @@ message-when-breaking-block2: "&7Hint: Type &6/drop2inventory&7 or &6/drop2inv&7
 debug: false
 
 # please do not change the following line manually!
-config-version: 12
+config-version: 13

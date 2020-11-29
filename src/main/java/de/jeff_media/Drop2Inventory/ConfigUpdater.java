@@ -85,6 +85,15 @@ public class ConfigUpdater {
                     }
                 }
             }
+            else if (line.startsWith("disabled-worlds:")) {
+                newline = null;
+                newLines.add("disabled-worlds:");
+                if (plugin.disabledWorlds != null) {
+                    for (String world : plugin.disabledWorlds) {
+                        newLines.add("- " + world);
+                    }
+                }
+            }
             else {
                 for (String node : oldValues.keySet()) {
                     if (line.startsWith(node + ":")) {

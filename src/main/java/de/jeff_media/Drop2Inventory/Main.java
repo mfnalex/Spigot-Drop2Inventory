@@ -22,7 +22,7 @@ import org.bukkit.Material;
 
 public class Main extends JavaPlugin {
 
-	int currentConfigVersion = 12;
+	int currentConfigVersion = 13;
 
 	BlockDropWrapper blockDropWrapper;
 	DropHandler dropHandler;
@@ -36,6 +36,7 @@ public class Main extends JavaPlugin {
 	HashMap<String, PlayerSetting> perPlayerSettings;
 
 	ArrayList<Material> disabledBlocks;
+	ArrayList<String> disabledWorlds;
 
 	boolean blocksIsWhitelist = false;
 
@@ -199,6 +200,7 @@ public class Main extends JavaPlugin {
 		getConfig().addDefault("detect-legacy-drops",true);
 		disabledBlocks = new ArrayList<>();
 		disabledMobs = new ArrayList<>();
+		disabledWorlds = new ArrayList<>();
 		ArrayList<String> disabledBlocksStrings = (ArrayList<String>) getConfig().getStringList("disabled-blocks");
 		for(String s : disabledBlocksStrings) {
 			Material m = Material.getMaterial(s.toUpperCase());
@@ -211,6 +213,13 @@ public class Main extends JavaPlugin {
 		for(String s : getConfig().getStringList("disabled-mobs")) {
 				disabledMobs.add(s.toLowerCase());
 		}
+		for(String s : getConfig().getStringList("disabled-worlds")) {
+			disabledWorlds.add(s.toLowerCase());
+		}
+	}
+
+	protected boolean isWorldDisabled(String worldName) {
+		return disabledWorlds.contains(worldName.toLowerCase());
 	}
 
 	private  void showOldConfigWarning() {

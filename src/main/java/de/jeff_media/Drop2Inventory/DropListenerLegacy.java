@@ -31,6 +31,10 @@ public class DropListenerLegacy implements Listener {
             return;
         }
 
+        if(plugin.isWorldDisabled(event.getBlock().getWorld().getName())) {
+            return;
+        }
+
         Player player = event.getPlayer();
 
         if (!player.hasPermission("drop2inventory.use")) {

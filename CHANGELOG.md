@@ -1,5 +1,8 @@
 # Changelog
 
+## 4.7.0
+- Added disabled-worlds list
+
 ## 4.6.5
 - Fixed mending related exceptions in 1.12 and earlier
 

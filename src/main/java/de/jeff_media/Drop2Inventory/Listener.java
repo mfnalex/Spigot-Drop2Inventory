@@ -63,6 +63,10 @@ public class Listener implements org.bukkit.event.Listener {
             return;
         }
 
+        if(plugin.isWorldDisabled(event.getEntity().getWorld().getName())) {
+            return;
+        }
+
         if(!(entity.getKiller() instanceof Player)) {
             plugin.debug("Return: entity.getKiller ! instanceof player");
             return;
@@ -127,6 +131,11 @@ public class Listener implements org.bukkit.event.Listener {
         }
         plugin.debug("EntityDamageByEntityEvent is NOT cancelled");
         if(!isDrop2InvEnabled(p,plugin.getPlayerSetting(p))) return;
+
+        if(plugin.isWorldDisabled(p.getWorld().getName())) {
+            return;
+        }
+
         if(event.getEntity() instanceof ItemFrame) {
             ItemFrame frame = (ItemFrame) event.getEntity();
             ItemStack content = frame.getItem();
@@ -147,6 +156,9 @@ public class Listener implements org.bukkit.event.Listener {
             return;
         }
         Player p = (Player) event.getRemover();
+        if(plugin.isWorldDisabled(p.getName())) {
+            return;
+        }
         if(event.isCancelled()) return;
         if(!isDrop2InvEnabled(p,plugin.getPlayerSetting(p))) return;
         plugin.debug("Player removed a Hanging");
@@ -193,6 +205,10 @@ public class Listener implements org.bukkit.event.Listener {
 
         // disabled block?
         if (!plugin.utils.isBlockEnabled(event.getBlock().getType())) {
+            return;
+        }
+
+        if(plugin.isWorldDisabled(player.getWorld().getName())) {
             return;
         }
 
