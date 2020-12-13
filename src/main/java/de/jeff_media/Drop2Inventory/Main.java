@@ -22,7 +22,7 @@ import org.bukkit.Material;
 
 public class Main extends JavaPlugin {
 
-	int currentConfigVersion = 13;
+	int currentConfigVersion = 14;
 
 	BlockDropWrapper blockDropWrapper;
 	DropHandler dropHandler;
@@ -100,11 +100,11 @@ public class Main extends JavaPlugin {
 			updateChecker.check();
 		}
 
-		if(getConfig().getBoolean("debug",false)) {
-			debug=true;
-		}
+
 		
 		this.getCommand("drop2inventory").setExecutor(commandDrop2Inv);
+
+
 	}
 	
 	@Override
@@ -158,6 +158,39 @@ public class Main extends JavaPlugin {
 	public void createConfig() {
 		saveDefaultConfig();
 
+		if(getConfig().getBoolean("debug",false)) {
+			debug=true;
+		}
+
+		if(getConfig().isSet("enabled-blocks")) {
+			blocksIsWhitelist=true;
+		}
+		if(getConfig().isSet("enabled-mobs")) {
+			mobsIsWhitelist=true;
+		}
+
+		disabledBlocks = new ArrayList<>();
+		disabledMobs = new ArrayList<>();
+		disabledWorlds = new ArrayList<>();
+		ArrayList<String> disabledBlocksStrings = (ArrayList<String>) (blocksIsWhitelist ? getConfig().getStringList("enabled-blocks") : getConfig().getStringList("disabled-blocks"));
+		for(String s : disabledBlocksStrings) {
+			Material m = Material.getMaterial(s.toUpperCase());
+			if( m == null) {
+				getLogger().warning("Unrecognized material "+s);
+			} else {
+				disabledBlocks.add(m);
+				debug("Adding block to blocks " + (blocksIsWhitelist ? "whitelist" : "blacklist")+": "+m.name());
+			}
+		}
+		for(String s : (mobsIsWhitelist ? getConfig().getStringList("enabled-mobs") : getConfig().getStringList("disabled-mobs"))) {
+			disabledMobs.add(s.toLowerCase());
+			debug("Adding mob to mobs " + (mobsIsWhitelist ? "whitelist" : "blacklist") + ": "+s.toLowerCase());
+		}
+		for(String s : getConfig().getStringList("disabled-worlds")) {
+			disabledWorlds.add(s.toLowerCase());
+			debug("Adding world to worlds blacklist: "+s.toLowerCase());
+		}
+
 		if (getConfig().getInt("config-version", 0) != currentConfigVersion) {
 			showOldConfigWarning();
 
@@ -198,24 +231,7 @@ public class Main extends JavaPlugin {
 		getConfig().addDefault("collect-mob-exp", true);
 		getConfig().addDefault("auto-condense",false);
 		getConfig().addDefault("detect-legacy-drops",true);
-		disabledBlocks = new ArrayList<>();
-		disabledMobs = new ArrayList<>();
-		disabledWorlds = new ArrayList<>();
-		ArrayList<String> disabledBlocksStrings = (ArrayList<String>) getConfig().getStringList("disabled-blocks");
-		for(String s : disabledBlocksStrings) {
-			Material m = Material.getMaterial(s.toUpperCase());
-			if( m == null) {
-				getLogger().warning("Unrecognized material "+s);
-			} else {
-				disabledBlocks.add(m);
-			}
-		}
-		for(String s : getConfig().getStringList("disabled-mobs")) {
-				disabledMobs.add(s.toLowerCase());
-		}
-		for(String s : getConfig().getStringList("disabled-worlds")) {
-			disabledWorlds.add(s.toLowerCase());
-		}
+
 	}
 
 	protected boolean isWorldDisabled(String worldName) {

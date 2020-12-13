@@ -1,5 +1,9 @@
 # Changelog
 
+## 4.7.1
+- Fixed block blacklist and whitelist not working
+- Fixed automatic config updater for blocks/mobs blacklist/whitelist
+
 ## 4.7.0
 - Added disabled-worlds list
 

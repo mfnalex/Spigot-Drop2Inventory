@@ -39,6 +39,20 @@ public class ConfigUpdater {
         File oldConfigFile = new File(plugin.getDataFolder().getAbsolutePath() + File.separator + "config.old.yml");
         FileConfiguration oldConfig = YamlConfiguration.loadConfiguration(oldConfigFile);
 
+        if(oldConfig.getBoolean("debug")) {
+            plugin.debug=true;
+            /*if(plugin.debug) {
+                plugin.getLogger().warning("WARNING: oldConfig.debug != plugin.debug");
+                plugin.debug=true;
+            }*/
+            /*plugin.getLogger().warning("Test 1: " + plugin.blocksIsWhitelist);
+            plugin.getLogger().warning("Test 2: " + oldConfig.isSet("enabled-blocks"));*/
+
+
+
+
+        }
+
         try {
             oldConfig.load(oldConfigFile);
         } catch (IOException | InvalidConfigurationException e) {
@@ -69,7 +83,7 @@ public class ConfigUpdater {
             }
             else if (line.startsWith("disabled-blocks:")) {
                 newline = null;
-                newLines.add("disabled-blocks:");
+                newLines.add(plugin.blocksIsWhitelist ? "enabled-blocks:" : "disabled-blocks:");
                 if (plugin.disabledBlocks != null) {
                     for (Material mat : plugin.disabledBlocks) {
                         newLines.add("- " + mat.name());
@@ -78,7 +92,7 @@ public class ConfigUpdater {
             }
             else if (line.startsWith("disabled-mobs:")) {
                 newline = null;
-                newLines.add("disabled-mobs:");
+                newLines.add(plugin.mobsIsWhitelist ? "enabled-mobs" : "disabled-mobs:");
                 if (plugin.disabledMobs != null) {
                     for (String mob : plugin.disabledMobs) {
                         newLines.add("- " + mob);

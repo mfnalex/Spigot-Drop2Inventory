@@ -24,19 +24,21 @@ public class Utils {
 	}
 	 boolean isBlockEnabled(Material mat) {
 		 plugin.debug("Checking if "+mat.name()+" is enabled...");
+		 plugin.debug("Whitelist: "+plugin.blocksIsWhitelist);
 		if (!plugin.blocksIsWhitelist) {
-			if (plugin.disabledBlocks.contains(mat.name().toLowerCase())) {
-				plugin.debug("Its disabled!");
+			if (plugin.disabledBlocks.contains(mat)) {
+				plugin.debug("Its disabled on the blacklist!");
 				return false;
 			}
 			plugin.debug("Its enabled!");
 			return true;
 		}
-		if (plugin.disabledBlocks.contains(mat.name().toLowerCase())) {
+		if (plugin.disabledBlocks.contains(mat)) {
 			plugin.debug("Its enabled on the whitelist!");
 			return true;
 		}
 		 plugin.debug("Its not on the whitelist!");
+		plugin.debug("BTW the whitelist contains "+plugin.disabledBlocks.size()+" blocks");
 		return false;
 	}
 

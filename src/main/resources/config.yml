@@ -181,4 +181,4 @@ message-when-breaking-block2: "&7Hint: Type &6/drop2inventory&7 or &6/drop2inv&7
 debug: false
 
 # please do not change the following line manually!
-config-version: 13
+config-version: 14
