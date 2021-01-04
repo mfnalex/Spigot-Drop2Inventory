@@ -60,6 +60,14 @@ permissions-per-tool: false
 # in ominous ways.
 detect-legacy-drops: true
 
+# when enabled, Drop2Inventory will only put stuff into the hotbar when
+# the regular inventory is full.
+# when disabled, Items will be put into the hotbar if possible (default
+# and vanilla behaviour)
+# Consider enabling this when your players want to level their mcMMO
+# "unarmed" skill
+avoid-hotbar: false
+
 # Should we check for updates?
 # When enabled, a message is printed in the console if a new version has
 # been found, and OPs will be notified when they join the server.
@@ -181,4 +189,4 @@ message-when-breaking-block2: "&7Hint: Type &6/drop2inventory&7 or &6/drop2inv&7
 debug: false
 
 # please do not change the following line manually!
-config-version: 14
+config-version: 15

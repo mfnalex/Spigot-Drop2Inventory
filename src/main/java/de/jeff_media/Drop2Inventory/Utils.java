@@ -54,13 +54,16 @@ public class Utils {
 	}
 
 	void addOrDrop(ItemStack item, Player player) {
+		plugin.debug("addOrDrop: " + item.toString() + " -> "+player.getName());
+
 		ItemStack[] items = new ItemStack[1];
 		items[0] = item;
 		addOrDrop(items,player);
-		if(plugin.autoCondense) {
+		/*if(plugin.autoCondense) {
 			plugin.debug("Auto condensing "+item.getType().name());
 			plugin.ingotCondenser.condense(player.getInventory(), item.getType());
-		}
+		}*/
+
 	}
 
 	static boolean hasPermissionForThisTool(Material mat, Player p) {
@@ -84,7 +87,14 @@ public class Utils {
 	}
 
 	void addOrDrop(ItemStack[] items, Player player) {
+		if(plugin.getConfig().getBoolean("avoid-hotbar")) {
+			plugin.debug("  avoid-hotbar enabled");
+			plugin.hotbarStuffer.stuffHotbar(player.getInventory());
+		} else {
+			plugin.debug("  avoid-hotbar disabled");
+		}
 		for(ItemStack item : items) {
+			plugin.debug(" addOrDrop#2");
 			if(item==null) continue;
 			if(item.getType()==Material.AIR) continue;
 			HashMap<Integer, ItemStack> leftovers = player.getInventory().addItem(item);
@@ -96,6 +106,9 @@ public class Utils {
 				plugin.debug("Auto condensing "+item.getType().name());
 				plugin.ingotCondenser.condense(player.getInventory(), item.getType());
 			}
+		}
+		if(plugin.getConfig().getBoolean("avoid-hotbar")) {
+			plugin.hotbarStuffer.unstuffHotbar(player.getInventory());
 		}
 	}
 

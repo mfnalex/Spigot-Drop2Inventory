@@ -22,7 +22,7 @@ import org.bukkit.Material;
 
 public class Main extends JavaPlugin {
 
-	int currentConfigVersion = 14;
+	int currentConfigVersion = 15;
 
 	BlockDropWrapper blockDropWrapper;
 	DropHandler dropHandler;
@@ -32,6 +32,7 @@ public class Main extends JavaPlugin {
 	MendingUtils mendingUtils;
 	IngotCondenser ingotCondenser;
 	ItemSpawnListener itemSpawnListener;
+	HotbarStuffer hotbarStuffer;
 
 	HashMap<String, PlayerSetting> perPlayerSettings;
 
@@ -67,6 +68,7 @@ public class Main extends JavaPlugin {
 		ingotCondenser = new IngotCondenser(this);
 		itemSpawnListener = new ItemSpawnListener(this);
 		CommandDrop2Inv commandDrop2Inv = new CommandDrop2Inv(this);
+		hotbarStuffer = new HotbarStuffer(this);
 		
 		enabledByDefault = getConfig().getBoolean("enabled-by-default");
 		showMessageWhenBreakingBlock = getConfig().getBoolean("show-message-when-breaking-block");
@@ -231,6 +233,7 @@ public class Main extends JavaPlugin {
 		getConfig().addDefault("collect-mob-exp", true);
 		getConfig().addDefault("auto-condense",false);
 		getConfig().addDefault("detect-legacy-drops",true);
+		getConfig().addDefault("avoid-hotbar",false);
 
 	}
 

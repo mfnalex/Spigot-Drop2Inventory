@@ -1,5 +1,8 @@
 # Changelog
 
+## 4.8.0
+- Add option to avoid putting things into the hotbar when there are empty slots in the regular inventory so players can easily level their mcMMO "unarmed" skill
+
 ## 4.7.1
 - Fixed block blacklist and whitelist not working
 - Fixed automatic config updater for blocks/mobs blacklist/whitelist
