@@ -23,6 +23,7 @@ public class DropListener implements @NotNull Listener {
 
     @EventHandler(priority = EventPriority.HIGHEST)
     public void onItemDrop(BlockDropItemEvent event) {
+        plugin.debug("###BlockDropItemEvent");
         List<Item> items = event.getItems();
         Player player = event.getPlayer();
         World world = event.getPlayer().getLocation().getWorld();

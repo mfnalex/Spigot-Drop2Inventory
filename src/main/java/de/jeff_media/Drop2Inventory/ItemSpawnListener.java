@@ -34,12 +34,13 @@ public class ItemSpawnListener implements @NotNull Listener {
 
     @EventHandler(priority=EventPriority.HIGHEST)
     public void onItemDrop(PlayerDropItemEvent e) {
+        main.debug("###PlayerDropItemEvent");
         drops.add(e.getItemDrop().getUniqueId());
     }
 
     @EventHandler(priority= EventPriority.HIGHEST)
     public void onItemSpawn(ItemSpawnEvent e) {
-
+        main.debug("###ItemSpawnEvent");
         main.debug("onItemSpawn");
 
         if(drops.contains(e.getEntity().getUniqueId())) {

@@ -43,7 +43,7 @@ public class Listener implements org.bukkit.event.Listener {
 
     @EventHandler
     public void onPlayerJoin(PlayerJoinEvent event) {
-
+        plugin.debug("###PlayerJoinEvent");
         plugin.registerPlayer(event.getPlayer());
 
 
@@ -51,12 +51,14 @@ public class Listener implements org.bukkit.event.Listener {
 
     @EventHandler
     public void onPlayerQuit(PlayerQuitEvent event) {
+        plugin.debug("###PlayerQuitEvent");
         plugin.unregisterPlayer(event.getPlayer());
     }
 
     @EventHandler(priority = EventPriority.HIGHEST)
     public void onEntityDeath(EntityDeathEvent event) {
-        plugin.debug("EntityDeathEvent");
+        plugin.debug("###EntityDeathEvent");
+
         LivingEntity entity = event.getEntity();
         if (entity.getKiller() == null) {
             plugin.debug("Return: entity.getKiller = null");
@@ -122,7 +124,7 @@ public class Listener implements org.bukkit.event.Listener {
 
     @EventHandler(priority = EventPriority.MONITOR) // Monitor because some plugins like BannerBoard are too stupid to listen on LOWEST when they only want to cancel events regarding their own stuff...
     public void onItemFrameRemoveItem(EntityDamageByEntityEvent event) {
-
+        plugin.debug("###EntityDamageByEntityEvent");
         if(!(event.getDamager() instanceof Player)) return;
         Player p = (Player) event.getDamager();
         if(event.isCancelled()) {
@@ -152,6 +154,7 @@ public class Listener implements org.bukkit.event.Listener {
 
     @EventHandler(priority = EventPriority.MONITOR) // Monitor because some plugins like BannerBoard are too stupid to listen on LOWEST when they only want to cancel events regarding their own stuff...
     public void onHangingBreak(HangingBreakByEntityEvent event) {
+        plugin.debug("###HangingBreakByEntityEvent");
         if(!(event.getRemover() instanceof Player)) {
             return;
         }
@@ -187,7 +190,7 @@ public class Listener implements org.bukkit.event.Listener {
 
     @EventHandler(priority = EventPriority.HIGHEST)
     public void onBlockBreak(BlockBreakEvent event) {
-
+        plugin.debug("###BlockBreakEvent");
         //System.out.println("BlockBreakEvent "+event.getBlock().getType().name());
 
 

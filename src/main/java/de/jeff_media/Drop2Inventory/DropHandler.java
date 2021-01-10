@@ -87,7 +87,7 @@ public class DropHandler {
 			event.setDropItems(false);
 		} else {
 
-			event.setCancelled(true);
+			//event.setCancelled(true);
 			block.setType(Material.AIR);
 
 			if (itemInMainHand != null) {

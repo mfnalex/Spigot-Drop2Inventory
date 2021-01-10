@@ -6,6 +6,7 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 import org.bukkit.event.block.BlockBreakEvent;
+import org.bukkit.event.block.BlockPlaceEvent;
 
 public class DropListenerLegacy implements Listener {
     Main plugin;
@@ -13,8 +14,14 @@ public class DropListenerLegacy implements Listener {
         this.plugin=main;
     }
 
+    @EventHandler(priority = EventPriority.LOWEST)
+    public void onBlockPlace(BlockPlaceEvent event) {
+        plugin.debug("###BlockPlaceEvent");
+    }
+
     @EventHandler(priority = EventPriority.HIGHEST)
     public void onBlockBreak(BlockBreakEvent event) {
+        plugin.debug("###BlockBreakEvent");
 
         //System.out.println("BlockBreakEvent "+event.getBlock().getType().name());
 

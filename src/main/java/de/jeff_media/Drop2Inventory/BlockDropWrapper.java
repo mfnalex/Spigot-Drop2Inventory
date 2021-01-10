@@ -5,6 +5,7 @@ import java.util.Collection;
 import java.util.HashMap;
 import java.util.Random;
 
+import com.google.common.base.Enums;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
@@ -159,10 +160,14 @@ public class BlockDropWrapper {
 			if(seedcount>0) {
 				tmp.add(new ItemStack(Material.PUMPKIN_SEEDS,seedcount));
 			}
-		} else if(mat.name().equalsIgnoreCase("REDSTONE_ORE")) {
+		} else if(mat.name().equalsIgnoreCase("GLOWING_REDSTONE_ORE")) {
+			//System.out.println("DEBUG: GLOWING_REDSTONE_ORE");
 			if(isPickaxe(itemInMainHand) ) {
-				tmp.add(new ItemStack(Material.REDSTONE,rand.nextInt(1)+4));
+				//System.out.println("DEBUG: isPickaxe");
+				//tmp.add(new ItemStack(Material.REDSTONE,rand.nextInt(1)+4));
+				tmp.add(new ItemStack(Material.REDSTONE_ORE));
 			} else {
+				//System.out.println("DEBUG: NO PICKAXE");
 				return new ItemStack[0];
 			}
 		} else if(mat.name().equalsIgnoreCase("SNOW")) {
@@ -175,7 +180,17 @@ public class BlockDropWrapper {
 			if(isShovel(itemInMainHand)) {
 				tmp.add(new ItemStack(Material.SNOW_BLOCK,1));
 			} else {
-				tmp.add(new ItemStack(Material.SNOWBALL,4));
+				// Enums.getIfPresent fixes errors on 1.12 and earlier
+				Material snowball = Enums.getIfPresent(Material.class,"SNOWBALL").orNull();
+				if(snowball == null) {
+					//System.out.println("snowball = null");
+					snowball = Enums.getIfPresent(Material.class,"SNOW_BALL").orNull();
+				}
+				if(snowball != null) {
+					tmp.add(new ItemStack(snowball, 4));
+				} else {
+					//System.out.println("snowball still = null");
+				}
 			}
 		} else if(mat.name().equalsIgnoreCase("STONE")) {
 			if(isPickaxe(itemInMainHand)) {

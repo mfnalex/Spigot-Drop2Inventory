@@ -1,5 +1,9 @@
 # Changelog
 
+## 4.8.1
+- Fixes exception when breaking SNOW_BLOCKs using Silk Touch in 1.12.2 and earlier
+- Fixed REDSTONE_ORE not dropping anything when using Silk Touch in 1.12.2 and earlier
+
 ## 4.8.0
 - Add option to avoid putting things into the hotbar when there are empty slots in the regular inventory so players can easily level their mcMMO "unarmed" skill
 
