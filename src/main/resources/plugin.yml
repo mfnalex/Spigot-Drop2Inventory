@@ -1,6 +1,6 @@
 main: de.jeff_media.Drop2Inventory.Main
 name: Drop2Inventory
-version: 4.8.1-SNAPSHOT
+version: 4.9.0
 api-version: 1.13
 description: Items dropped by breaking blocks will be put into your inventory
 author: mfnalex
@@ -11,6 +11,7 @@ softdepend:
   - WorldGuard
   - Jobs
   - CoreProtect
+  - PlaceholderAPI
 permissions:
   drop2inventory.use:
     description: Allows usage of Drop2Inventory

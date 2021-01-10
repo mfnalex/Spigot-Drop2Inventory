@@ -106,6 +106,10 @@ public class Main extends JavaPlugin {
 		
 		this.getCommand("drop2inventory").setExecutor(commandDrop2Inv);
 
+		if(Bukkit.getPluginManager().getPlugin("PlaceholderAPI") != null){
+			new Placeholders(this).register();
+		}
+
 
 	}
 	
