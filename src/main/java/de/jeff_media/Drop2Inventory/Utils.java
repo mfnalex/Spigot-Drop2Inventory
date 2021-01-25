@@ -99,6 +99,7 @@ public class Utils {
 			if(item.getType()==Material.AIR) continue;
 			HashMap<Integer, ItemStack> leftovers = player.getInventory().addItem(item);
 			for (ItemStack leftover : leftovers.values()) {
+				if(leftover.getType() == Material.AIR) continue;
 				Item drop = player.getWorld().dropItemNaturally(player.getLocation(), leftover);
 				plugin.itemSpawnListener.drops.add(drop.getUniqueId());
 			}

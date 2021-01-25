@@ -1,5 +1,8 @@
 # Changelog
 
+## 4.9.1
+- Fixed exception when using Purpur
+
 ## 4.9.0
 - Added PlaceholderAPI support
 
