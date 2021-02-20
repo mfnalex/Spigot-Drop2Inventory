@@ -82,7 +82,7 @@ public class Main extends JavaPlugin {
 			this.getServer().getPluginManager().registerEvents(new DropListener(this),this);
 			debug("MC Version is above 1.13, using BlockDropItemEvent");
 		} else {
-			blockDropWrapper = new BlockDropWrapper();
+			blockDropWrapper = new BlockDropWrapper(this);
 			dropHandler = new DropHandler(this);
 			this.getServer().getPluginManager().registerEvents(new DropListenerLegacy(this),this);
 			debug("MC Version is 1.12 or below, using BlockBreakEvent");

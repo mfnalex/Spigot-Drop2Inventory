@@ -24,11 +24,13 @@ public class BlockDropWrapper {
 	
 	HashMap<Material,Material> silkTouchMap;
 	HashMap<Material, ItemStack[]> dropMap;
+	Main main;
 	
-	BlockDropWrapper() {
+	BlockDropWrapper(Main main) {
 		this.silkTouchMap=new HashMap<Material,Material>();
 		this.dropMap=new HashMap<Material,ItemStack[]>();	
 		this.rand=new Random();
+		this.main=main;
 	}
 	
 	boolean isPickaxe(ItemStack itemInMainHand) {
@@ -58,9 +60,10 @@ public class BlockDropWrapper {
 		// https://minecraft.gamepedia.com/Enchanting#Silk_Touch
 
 		// Why the fuck is this no switch/case statement?
-		
-		if(mat.name().toLowerCase().endsWith("_door")) {
-			doDoorDrop(mat,blockDestroyed,tmp);
+
+		if(mat.name().toLowerCase().endsWith("_door") ||
+				(mat.name().toLowerCase().endsWith("_door_block"))) {
+			doDoorDrop(mat,blockDestroyed,tmp, true);
 		}
 
 		if(mat.name().equalsIgnoreCase("BEETROOTS")) {
@@ -233,8 +236,8 @@ public class BlockDropWrapper {
 		
 		ArrayList<ItemStack> tmp = new ArrayList<ItemStack>();
 		
-		if(mat.name().toLowerCase().endsWith("_door")) {
-			doDoorDrop(mat,blockDestroyed,tmp);
+		if(mat.name().toLowerCase().endsWith("_door") || mat.name().toLowerCase().endsWith("_door_block")) {
+			doDoorDrop(mat,blockDestroyed,tmp,false);
 			
 		} else if(mat.name().equalsIgnoreCase("BEETROOTS")) {
 			Ageable ageable = (Ageable) blockDestroyed.getBlockData();
@@ -282,30 +285,62 @@ public class BlockDropWrapper {
 		}
 		
 		if(tmp.size()>0) {
+			main.debug("tmp > 0, returning following drops:");
+			for(ItemStack itemStack : tmp) {
+				main.debug("- " + itemStack.toString());
+			}
 			return tmp.toArray(new ItemStack[tmp.size()]);
 		}
-		
-		
+
 		if(dropMap.containsKey(blockDestroyed.getType())) {
 			return dropMap.get(blockDestroyed.getType());
 		} else {
 		Collection<ItemStack> drops = blockDestroyed.getDrops(itemInMainHand);		
 			return drops.toArray(new ItemStack[drops.size()]);
 		}
+
 	}
 	
-	private void doDoorDrop(Material mat, Block blockDestroyed,ArrayList<ItemStack> tmp) {
-		if(mat.name().toLowerCase().endsWith("_door")) {
-			//System.out.println("Processing door");
-			Door doorMeta = (Door) blockDestroyed.getBlockData();
-			if(doorMeta.getHalf() == Half.TOP) {
-				tmp.add(new ItemStack(mat,1));
-				
-				// TODO: Before deleting the bottom half, check if it really is a door
-				blockDestroyed.getRelative(BlockFace.DOWN).setType(Material.AIR);
+	private void doDoorDrop(Material mat, Block blockDestroyed,ArrayList<ItemStack> tmp, boolean silkTouch) {
+		if(main.mcVersion>=13) {
+			if (mat.name().toLowerCase().endsWith("_door")) {
+				//System.out.println("Processing door");
+				Door doorMeta = (Door) blockDestroyed.getBlockData();
+				if (doorMeta.getHalf() == Half.TOP) {
+					tmp.add(new ItemStack(mat, 1));
+
+					// TODO: Before deleting the bottom half, check if it really is a door
+					blockDestroyed.getRelative(BlockFace.DOWN).setType(Material.AIR);
+				}
 			}
-			
-		} 
+		} else {
+			// 1.12.2 and below
+			main.debug("doDoorDrop < 1.13");
+			if(mat.name().contains("DOOR") && !mat.name().contains("TRAP")) {
+				if (blockDestroyed.getRelative(BlockFace.DOWN).getType() == mat || silkTouch) {
+					mat = getAppropiateDoorItemForFuckingAncientVersions(mat);
+					main.debug("Adding " + mat + " to drops list");
+					tmp.add(new ItemStack(mat, 1));
+				}
+			}
+		}
+	}
+
+	public Material getAppropiateDoorItemForFuckingAncientVersions(Material doorBlock) {
+		main.debug("Door BLOCK: " + doorBlock);
+		switch(doorBlock.name()) {
+			case "WOODEN_DOOR":
+				doorBlock = Material.valueOf("WOOD_DOOR");
+				break;
+			case "IRON_DOOR_BLOCK":
+				doorBlock = Material.valueOf("IRON_DOOR");
+				break;
+			default:
+				doorBlock = Material.valueOf(doorBlock.name()+"_ITEM");
+				break;
+		}
+		main.debug("Detected ITEM: " + doorBlock);
+		return doorBlock;
 	}
 
 }

@@ -77,6 +77,7 @@ public class DropHandler {
 		}
 
 		for (ItemStack item : drops) {
+			plugin.debug("Attempting to drop "+item.toString());
 			HashMap<Integer, ItemStack> leftOver = player.getInventory().addItem(item);
 			for (ItemStack leftoverItem : leftOver.values()) {
 				player.getWorld().dropItem(player.getLocation(), leftoverItem);

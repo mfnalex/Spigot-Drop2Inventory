@@ -1,5 +1,11 @@
 # Changelog
 
+## 4.9.3
+- Fixed exception when using totally outdated minecraft versions
+
+## 4.9.2
+- Fixed exception when breaking doors in ancient (below 1.13) minecraft versions
+
 ## 4.9.1
 - Fixed exception when using Purpur
 
