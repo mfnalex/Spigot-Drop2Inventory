@@ -80,7 +80,9 @@ public class DropHandler {
 			plugin.debug("Attempting to drop "+item.toString());
 			HashMap<Integer, ItemStack> leftOver = player.getInventory().addItem(item);
 			for (ItemStack leftoverItem : leftOver.values()) {
-				player.getWorld().dropItem(player.getLocation(), leftoverItem);
+				if(leftoverItem.getType()!=Material.AIR && leftoverItem.getAmount()!=0) {
+					player.getWorld().dropItem(player.getLocation(), leftoverItem);
+				}
 			}
 		}
 

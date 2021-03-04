@@ -1,5 +1,8 @@
 # Changelog
 
+## 4.9.5
+- Fixed exception when using totally outdated minecraft versions
+
 ## 4.9.3
 - Fixed exception when using totally outdated minecraft versions
 
