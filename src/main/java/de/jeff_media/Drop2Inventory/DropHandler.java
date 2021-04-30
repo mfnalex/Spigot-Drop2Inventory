@@ -11,6 +11,8 @@ import org.bukkit.enchantments.Enchantment;
 import org.bukkit.entity.Player;
 import org.bukkit.event.block.BlockBreakEvent;
 import org.bukkit.inventory.ItemStack;
+import org.bukkit.Bukkit;
+import java.util.List;
 
 public class DropHandler {
 	
@@ -48,7 +50,7 @@ public class DropHandler {
 			fortuneLevel = itemInMainHand.getEnchantmentLevel(Enchantment.LOOT_BONUS_BLOCKS);
 		}
 
-		ArrayList<ItemStack> drops;
+		List<ItemStack> drops;
 
 		if (hasSilkTouch) {
 			drops = new ArrayList<ItemStack>();
@@ -75,7 +77,11 @@ public class DropHandler {
 				drops.add(getBed(block.getType()));
 			}
 		}
-
+		
+		//Calling to the Event
+		Drop2InventoryEvent event = new Drop2InventoryEvent(player, drops);
+            	Bukkit.getServer().getPluginManager().callEvent(event);
+		
 		for (ItemStack item : drops) {
 			plugin.debug("Attempting to drop "+item.toString());
 			HashMap<Integer, ItemStack> leftOver = player.getInventory().addItem(item);
