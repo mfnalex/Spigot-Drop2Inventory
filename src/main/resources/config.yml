@@ -169,6 +169,12 @@ message-when-breaking-block2: "&7Hint: Type &6/drop2inventory&7 or &6/drop2inv&7
 #message-when-breaking-block: "&7Hinweis: Benutze &6/drop2inventory&7 oder &6/drop2inv&7 um das automatische Einsammeln zu aktivieren."
 #message-when-breaking-block2: "&7Hinweis: Benutze &6/drop2inventory&7 oder &6/drop2inv&7 um das automatische Einsammeln zu deaktivieren."
 
+##### Polish
+#message-disabled: "&7Automatyczne zbieranie dropu zostało &cwyłączone&7."
+#message-enabled: "&7Automatyczne zbieranie dropu zostało &awłączone&7."
+#message-when-breaking-block: "&7Podpowiedź: Wpisz &6/drop2inventory&7 lub &6/drop2inv&7 aby włączyć automatyczne zbieranie dropu."
+#message-when-breaking-block2: "&7Podpowiedź: Wpisz &6/drop2inventory&7 lub &6/drop2inv&7 aby wyłączyć automatyczne zbieranie dropu."
+
 ##### Russian
 #message-disabled: "&7Автоматический сбор дропа &cотключен&7."
 #message-enabled: "&7Автоматический сбор дропа &aвключен&7."
