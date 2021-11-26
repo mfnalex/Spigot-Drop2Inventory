@@ -192,7 +192,6 @@ message-when-breaking-block2: "&7Hint: Type &6/drop2inventory&7 or &6/drop2inv&7
 #message-enabled: "&7Automatisk droppinsamling har &aaktiverats&7."
 #message-when-breaking-block: "&7Tips: Skriv &6/drop2inventory&7 eller &6/drop2inv&7 för att aktivera automatisk droppinsamling."
 #message-when-breaking-block2: "&7Tips: Skriv &6/drop2inventory&7 eller &6/drop2inv&7 för att inaktivera automatisk droppinsamling."
-#message-inventory-full: "&cDitt inventarium är fullt."
 
 ##### Turkish
 #message-disabled: "&7Otomatik toplama &cdeaktifleştirildi&7."
